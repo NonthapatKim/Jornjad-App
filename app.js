@@ -65,7 +65,7 @@ app.post('/register', (req, res) => {
       res.status(500).send('Error saving data to the database');
     } else {
       console.log('Data inserted:', result);
-      res.redirect('/login'); // เปลี่ยนเส้นทางไปยังหน้าที่ต้องการ
+      res.redirect('/login');
     }
   });
 });
@@ -93,8 +93,6 @@ app.post('/home', upload.single('image'), (req, res) => {
     }
   );
 });
-
-
 
 
 // เริ่มต้น server
