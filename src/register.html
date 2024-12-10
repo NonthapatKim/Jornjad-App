@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Ensuring the navbar stays on top */
+    header {
+      z-index: 10;
+      position: relative;
+    }
+    /* Full screen height form */
+    .form-container {
+      min-height: 100vh;
+    }
+    /* Center buttons horizontally */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+  </style>
+</head>
+
+<header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
+              <a href="./home.html" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
+            </div>
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4 ml-auto flex-row-reverse">
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">วิธีดูแล</a>
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">โครงการช่วยเหลือ</a>
+                <a href="/login" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">เข้าสู่ระบบ</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+</header>
+
+<body class="min-h-screen bg-gray-100">
+    <div class="flex items-center justify-center form-container">
+      <form action="/register" method="POST" class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+
+         <p class="text-lg text-center mb-6">Register Form</p>
+          <div class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-4">
+
+            <div class="sm:col-span-4">
+              <label for="fullname" class="block text-sm font-medium text-gray-900">ชื่อ-นามสกุล</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="text" name="fullname" id="fullname" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="ชื่อ-นามสกุล">
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="username" class="block text-sm font-medium text-gray-900">ชื่อผู้ใช้</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="text" name="username" id="username" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="ชื่อผู้ใช้">
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="password" class="block text-sm font-medium text-gray-900">รหัสผ่าน</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="password" name="password" id="password" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="รหัสผ่าน">
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="retypePassword" class="block text-sm font-medium text-gray-900">ยืนยันรหัสผ่าน</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="password" name="retypePassword" id="retypePassword" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="ยืนยันรหัสผ่าน">
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="email" name="email" id="email" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="@gmail.com">
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="phone" class="block text-sm font-medium text-gray-900">เบอร์โทร</label>
+              <div class="mt-2">
+                <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input type="phone" name="phone" id="phone" class="block w-full py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm" placeholder="0XXXXXXXXX">
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="sm:col-span-4">
+              <label for="photo" class="block text-sm font-medium text-gray-900">Photo</label>
+              <div class="mt-2 flex items-center gap-x-3">
+                <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover photo</label>
+              <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div class="text-center">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Button container centered -->
+            <div class="sm:col-span-4 button-container mt-6">
+              <button 
+              type="button" 
+              class="text-sm font-semibold text-gray-900">
+              Cancel
+              </button>
+            
+              <!-- ปุ่ม Save -->
+              <button 
+                type="submit" 
+                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                Save
+              </button>
+            </div>
+
+          </div>
+      </form>
+  </div>
+</body>
+</html>
