@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/images/icon-white.png">
+    <title>จรจัด | Jornjad</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/output.css" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://api.longdo.com/map/?key=0671ad90af3778e5ae2004875bf4f2ab"></script>
+    <script>
+      function init() {
+        var map = new longdo.Map({
+          placeholder: document.getElementById("map"),
+        });
+        var search = document.getElementById("search");
+        map.Search.placeholder(document.getElementById("result"));
+        //When user press an Enter button #search
+        search.onkeyup = function (event) {
+          if ((event || window.event).keyCode != 13) return;
+          doSearch();
+        };
+
+        function doSearch() {
+          map.Search.search(search.value, {
+            area: 10,
+          });
+          result.style.display = "block"; // แสดงผลลัพธ์อีกครั้ง
+        }
+
+        // Marker แมว
+        map.Overlays.add(
+          new longdo.Marker(
+            { lon: 100.5, lat: 13.8 }, // ตำแหน่งของ Marker
+            {
+              title: "Cat",
+              icon: {
+                url: "https://img5.pic.in.th/file/secure-sv1/cat6b64d8256d8b6d45.png", // URL ของไอคอนแมว
+                offset: { x: 25, y: 25 }, // ปรับจุดอ้างอิงให้อยู่ตรงกลาง
+                size: { width: 50, height: 50 }, // กำหนดขนาดไอคอน
+              },
+              detail: "This is a cat icon!",
+              draggable: false,
+            }
+          )
+        );
+
+        // Marker หมา
+        map.Overlays.add(
+          new longdo.Marker(
+            { lon: 101.2, lat: 12.8 }, // ตำแหน่งของ Marker
+            {
+              title: "Dog",
+              icon: {
+                url: "https://img2.pic.in.th/pic/dogg.png", // URL ของไอคอนหมา
+                offset: { x: 25, y: 25 }, // ปรับจุดอ้างอิงให้อยู่ตรงกลาง
+                size: { width: 50, height: 50 }, // กำหนดขนาดไอคอน
+              },
+              detail: "This is a dog icon!",
+              draggable: false,
+            }
+          )
+        );
+      }
+
+      function openModal() {
+        document.getElementById("markerModal").style.display = "flex"; // เปิด modal
+      }
+
+      function closeModal() {
+        document.getElementById("markerModal").style.display = "none"; // ปิด modal
+      }
+
+      function addMarker() {
+        // แสดง modal เมื่อกดปุ่ม
+        openModal();
+      }
+
+      function previewImage(event) {
+        // แสดงรูปที่เลือกใน modal
+        const output = document.getElementById("imagePreview");
+        output.style.display = "block"; // แสดงรูปที่เลือก
+        output.src = URL.createObjectURL(event.target.files[0]);
+      }
+      // ฟังก์ชันค้นหา
+      function doSearch() {
+        const searchValue = search.value.trim();
+        if (searchValue === "") {
+          result.style.display = "none"; // ซ่อนผลลัพธ์หากไม่มีข้อความ
+          return;
+        }
+
+        map.Search.search(searchValue, {
+          area: 10,
+        });
+
+        result.style.display = "block"; // แสดงผลลัพธ์อีกครั้ง
+      }
+      document.addEventListener("click", function (event) {
+        const result = document.getElementById("result");
+        const searchPlace = document.getElementById("searchPlace");
+
+        // ตรวจสอบว่าคลิกที่นอก `searchPlace` และ `result`
+        if (
+          !searchPlace.contains(event.target) &&
+          !result.contains(event.target)
+        ) {
+          result.style.display = "none"; // ซ่อน `result`
+        }
+      });
+
+      result.innerHTML = ""; // ล้างข้อมูลเก่า
+      const mockResults = ["Result 1", "Result 2", "Result 3"]; // ตัวอย่างข้อมูล
+      mockResults.forEach((item) => {
+        const div = document.createElement("div");
+        div.textContent = item;
+        div.className = "search-result-item";
+        div.onclick = () => {
+          console.log(`Selected: ${item}`);
+          hideResult(); // ซ่อนผลลัพธ์เมื่อคลิก
+        };
+        result.appendChild(div);
+      });
+
+      result.style.display = "block"; // แสดงผลลัพธ์
+
+      function hideResult() {
+        result.style.display = "none";
+      }
+
+      const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, "uploads/");
+        },
+        filename: (req, file, cb) => {
+          cb(null, Date.now() + "-" + file.originalname);
+        },
+      });
+      const upload = multer({ storage });
+
+      document
+        .getElementById("animalForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+
+          try {
+            const response = await fetch("/api/animals", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              alert("Data saved successfully!");
+              closeModal();
+            } else {
+              alert("Failed to save data!");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred!");
+          }
+        });
+    </script>
+  </head>
+
+  <header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <!-- โลโก้และชื่อ -->
+          <div class="flex items-center space-x-4">
+            <img
+              class="h-8 w-auto"
+              src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png"
+              alt="Your Company"
+            />
+            <a
+              href="#"
+              class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700"
+              >จรจัด</a
+            >
+          </div>
+
+          <!-- ลิงก์เมนูและกล่องค้นหา -->
+          <div class="flex items-center space-x-4">
+            <!-- ลิงก์เมนู -->
+            <div class="flex items-center space-x-4">
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white"
+                >วิธีดูแล</a
+              >
+              <a
+                href="#"
+                class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white"
+                >โครงการช่วยเหลือ</a
+              >
+              <a
+                href="/login"
+                class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white"
+                >เข้าสู่ระบบ</a
+              >
+            </div>
+
+            <!-- กล่องค้นหา -->
+            <div id="searchPlace" class="flex items-center">
+              <input
+                id="search"
+                placeholder="ค้นหาที่อยู่..."
+                class="text-sm px-3 py-2 border rounded-md"
+              />
+              <div id="result" onclick="hideResult()"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <body onload="init();">
+    <button class="add-marker-btn" onclick="addMarker()">
+      <span class="font-sans font-medium">+ เพิ่ม</span>
+      <img
+        class="h-8 w-auto"
+        src="https://img2.pic.in.th/pic/ph_cat.png"
+        alt="Logo"
+      />
+      <img
+        class="h-8 w-auto"
+        src="https://img5.pic.in.th/file/secure-sv1/ph_dog.png"
+        alt="Logo"
+      />
+    </button>
+
+    <div id="map"></div>
+    <div id="markerModal" class="modal">
+      <div class="modal-content">
+        <h1 class="text-xl font-semibold text-gray-900">
+          เพิ่มข้อมูลน้องหมาน้องแมว
+        </h1>
+        <form
+          id="animalForm"
+          action="/home"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="flex items-center">
+            <!-- ปุ่มเลือกไฟล์ -->
+            <label class="file-upload-btn">
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                name="image"
+              />
+              <img
+                class="w-8 h-8"
+                src="https://img5.pic.in.th/file/secure-sv1/dog07691b7cacd1708f.png"
+                alt="Upload Icon"
+              />
+            </label>
+
+            <div class="flex flex-col gap-1 flex-1 pl-5">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="ชื่อ"
+                class="p-2 border border-gray-300 rounded-md w-full"
+              />
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="ที่อยู่"
+                class="p-2 border border-gray-300 rounded-md w-full"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2 flex-1 mt-2">
+            <input
+              type="text"
+              id="details"
+              name="details"
+              placeholder="พิกัดที่อยู่เพิ่มเติม"
+              class="p-2 border border-gray-300 rounded-md w-full"
+            />
+          </div>
+
+          <fieldset
+            class="flex flex-col items-center justify-center gap-2 mt-4"
+          >
+            <p class="mt-1 text-base text-gray-600 self-start text-left">
+              ข้อมูลเพิ่มเติม
+            </p>
+            <div class="mt-2 space-y-4 w-full">
+              <!-- น้องแมว / น้องหมา -->
+              <div class="flex justify-between items-center">
+                <div class="flex items-center w-full">
+                  <input
+                    id="cat"
+                    name="animal"
+                    type="radio"
+                    value="cat"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="cat"
+                    class="text-lg font-medium text-gray-900 ml-2"
+                    >น้องแมว</label
+                  >
+                </div>
+                <div class="flex items-center w-full">
+                  <input
+                    id="dog"
+                    name="animal"
+                    type="radio"
+                    value="dog"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="dog"
+                    class="text-lg font-medium text-gray-900 ml-2"
+                    >น้องหมา</label
+                  >
+                </div>
+              </div>
+              <!-- ป่วย / ไม่ป่วย -->
+              <div class="flex justify-between items-center">
+                <div class="flex items-center w-full">
+                  <input
+                    id="sick"
+                    name="health"
+                    type="radio"
+                    value="sick"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="sick"
+                    class="text-lg font-medium text-gray-900 ml-2"
+                    >ป่วย</label
+                  >
+                </div>
+                <div class="flex items-center w-full">
+                  <input
+                    id="not-sick"
+                    name="health"
+                    type="radio"
+                    value="not-sick"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="not-sick"
+                    class="text-lg font-medium text-gray-900 ml-2"
+                    >ไม่ป่วย</label
+                  >
+                </div>
+              </div>
+              <!-- ทำหมันแล้ว / ยังไม่ทำหมัน -->
+              <div class="flex justify-between items-center">
+                <div class="flex items-center w-full">
+                  <input
+                    id="neutered"
+                    name="sterilization"
+                    value="neutered"
+                    type="radio"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="neutered"
+                    class="text-lg font-medium text-gray-900 ml-2"
+                    >ทำหมันแล้ว</label
+                  >
+                </div>
+                <div class="flex items-center w-full">
+                  <input
+                    id="not-neutered"
+                    name="sterilization"
+                    value="not-neutered"
+                    type="radio"
+                    class="form-radio text-indigo-600"
+                  />
+                  <label
+                    for="not-neutered"
+                    class="text-lg font-medium text-gray-900 ml-2 whitespace-nowrap"
+                    >ยังไม่ทำหมัน</label
+                  >
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="flex justify-end gap-4 mt-6">
+            <!-- ปุ่มยกเลิก -->
+            <button
+              type="button"
+              class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300"
+              onclick="closeModal()"
+            >
+              ยกเลิก
+            </button>
+
+            <!-- ปุ่มบันทึก -->
+            <button
+              type="submit"
+              class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown"
+            >
+              <!-- อย่าลืมเปลี่ยนสีตรงhover -->
+              <!-- ให้บันทึกข้อมูล -->
+              บันทึก
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -610,7 +610,7 @@ video {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  font-family: 'IBM Plex Sans Thai';
+  font-family: "IBM Plex Sans Thai";
 }
 
 .add-marker-btn img {
@@ -635,10 +635,6 @@ video {
   border-width: 0;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .relative {
   position: relative;
 }
@@ -654,10 +650,6 @@ video {
 
 .ml-2 {
   margin-left: 0.5rem;
-}
-
-.ml-auto {
-  margin-left: auto;
 }
 
 .mt-1 {
@@ -676,6 +668,10 @@ video {
   margin-top: 1rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -692,10 +688,6 @@ video {
   display: grid;
 }
 
-.hidden {
-  display: none;
-}
-
 .h-16 {
   height: 4rem;
 }
@@ -706,10 +698,6 @@ video {
 
 .h-8 {
   height: 2rem;
-}
-
-.h-full {
-  height: 100%;
 }
 
 .min-h-full {
@@ -750,10 +738,6 @@ video {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.flex-row-reverse {
-  flex-direction: row-reverse;
 }
 
 .flex-col {
@@ -868,9 +852,9 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
 
-.bg-indigo-600 {
+.bg-red-200 {
   --tw-bg-opacity: 1;
-  background-color: rgb(79 70 229 / var(--tw-bg-opacity, 1));
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity, 1));
 }
 
 .bg-white {
@@ -880,6 +864,10 @@ video {
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 .p-8 {
@@ -904,6 +892,11 @@ video {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .px-6 {
@@ -1005,11 +998,6 @@ video {
   letter-spacing: -0.025em;
 }
 
-.text-gray-300 {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity, 1));
-}
-
 .text-gray-600 {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity, 1));
@@ -1028,6 +1016,11 @@ video {
 .text-lightbrown {
   --tw-text-opacity: 1;
   color: rgb(206 72 3 / var(--tw-text-opacity, 1));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 .text-white {
@@ -1078,6 +1071,148 @@ video {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity, 1));
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* สไตล์สำหรับแผนที่ */
+
+nav {
+  position: relative;
+  /* เปลี่ยนเป็น relative */
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Map */
+
+#map {
+  height: calc(100% - 64px);
+  /* ลดความสูงด้วยขนาดของ navbar (64px) */
+  margin-top: 64px;
+  /* เพิ่ม margin-top เท่ากับความสูงของ navbar */
+}
+
+#searchPlace {
+  flex: none;
+  /* ไม่ยืดขยาย */
+  display: flex;
+  align-items: center;
+}
+
+#search {
+  height: 36px;
+  width: 350px;
+  border-radius: 4px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+}
+
+#result {
+  position: absolute;
+  /* ซ้อนอยู่ใต้กล่องค้นหา */
+  top: 100%;
+  /* วางด้านล่าง */
+  right: 0;
+  width: 29%;
+  /* ให้มีความกว้างเท่ากับกล่องค้นหา */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  /* ลบขอบด้านบนเพื่อให้ดูเป็นส่วนเดียวกัน */
+  max-height: 500px;
+  /* จำกัดความสูง */
+  overflow-y: auto;
+  /* เพิ่ม scroll เมื่อเนื้อหายาว */
+  z-index: 1000;
+  /* ให้อยู่เหนือส่วนอื่น */
+}
+
+/* ทำให้ Navbar ซ้อนบนแผนที่ */
+
+nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  /* ทำให้ Navbar อยู่เหนือแผนที่ */
+}
+
+.modal {
+  display: none;
+  /* ปกติจะซ่อน */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* สีพื้นหลังมืด */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 500px;
+  text-align: center;
+}
+
+.modal input,
+.modal button {
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.modal img {
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* ปรับปุ่มเลือกไฟล์ให้เป็นวงกลม */
+
+.file-upload-btn {
+  width: 100px;
+  height: 100px;
+  background-color: #b7b7b7;
+  /* สีพื้นหลัง */
+  border-radius: 50%;
+  /* ทำให้เป็นวงกลม */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
+
+.file-upload-btn:hover {
+  background-color: #8e5808;
+  /* เปลี่ยนสีเมื่อ hover */
+}
+
+.file-upload-btn input[type="file"] {
+  display: none;
+  /* ซ่อน input type file */
+}
+
+.file-upload-btn img {
+  width: 70px;
+  /* ขนาดของไอคอน */
+  height: 70px;
+  /* ขนาดของไอคอน */
+}
+
+/* เพิ่มช่องว่างระหว่างฟอร์มข้อมูล */
+
+.input-fields .input {
+  margin-bottom: 10px;
+}
+
 .placeholder\:text-gray-400::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
@@ -1120,6 +1255,11 @@ video {
   --tw-ring-offset-width: 2px;
 }
 
+.hover\:bg-amber-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(180 83 9 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-brown:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(50 19 3 / var(--tw-bg-opacity, 1));
@@ -1138,11 +1278,6 @@ video {
 .hover\:bg-gray-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-indigo-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-indigo-500:hover {
@@ -1189,8 +1324,8 @@ video {
   outline-offset: 2px;
 }
 
-.focus-visible\:outline-indigo-600:focus-visible {
-  outline-color: #4f46e5;
+.focus-visible\:outline-lightbrown:focus-visible {
+  outline-color: #CE4803;
 }
 
 @media (min-width: 640px) {
@@ -1201,14 +1336,6 @@ video {
   .sm\:mx-auto {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .sm\:ml-6 {
-    margin-left: 1.5rem;
-  }
-
-  .sm\:block {
-    display: block;
   }
 
   .sm\:w-full {
@@ -1244,119 +1371,4 @@ video {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* สไตล์สำหรับแผนที่ */
-  nav {
-    position: relative; /* เปลี่ยนเป็น relative */
-    width: 100%;
-    z-index: 1000;
-  }
-
-  /* Map */
-  #map {
-    height: calc(100% - 64px); /* ลดความสูงด้วยขนาดของ navbar (64px) */
-    margin-top: 64px; /* เพิ่ม margin-top เท่ากับความสูงของ navbar */
-  }
-
-  #searchPlace {
-flex: none; /* ไม่ยืดขยาย */
-display: flex;
-align-items: center;
-}
-
-#search {
-height: 36px;
-width: 350px;
-border-radius: 4px;
-padding: 0 8px;
-border: 1px solid #ccc;
-}
-
-#result {
-position: absolute; /* ซ้อนอยู่ใต้กล่องค้นหา */
-top: 100%; /* วางด้านล่าง */
-right: 0;
-width: 29%; /* ให้มีความกว้างเท่ากับกล่องค้นหา */
-background-color: white;
-border: 1px solid #ccc;
-border-top: none; /* ลบขอบด้านบนเพื่อให้ดูเป็นส่วนเดียวกัน */
-max-height: 500px; /* จำกัดความสูง */
-overflow-y: auto; /* เพิ่ม scroll เมื่อเนื้อหายาว */
-z-index: 1000; /* ให้อยู่เหนือส่วนอื่น */
-}
-
-
-  /* ทำให้ Navbar ซ้อนบนแผนที่ */
-  nav {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 1000; /* ทำให้ Navbar อยู่เหนือแผนที่ */
-  }
-
-  .modal {
-    display: none; /* ปกติจะซ่อน */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* สีพื้นหลังมืด */
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 500px;
-    text-align: center;
-  }
-
-  .modal input, .modal button {
-    margin: 10px 0;
-    padding: 10px;
-  }
-
-  .modal img {
-    max-width: 100%;
-    margin-top: 10px;
-  }
-
-/* ปรับปุ่มเลือกไฟล์ให้เป็นวงกลม */
-.file-upload-btn {
-width: 100px;
-height: 100px;
-background-color: #b7b7b7; /* สีพื้นหลัง */
-border-radius: 50%; /* ทำให้เป็นวงกลม */
-display: flex;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-border: none;
-}
-
-.file-upload-btn:hover {
-background-color: #8e5808; /* เปลี่ยนสีเมื่อ hover */
-}
-
-.file-upload-btn input[type="file"] {
-display: none; /* ซ่อน input type file */
-}
-
-.file-upload-btn img {
-width: 70px; /* ขนาดของไอคอน */
-height: 70px; /* ขนาดของไอคอน */
-}
-
-/* เพิ่มช่องว่างระหว่างฟอร์มข้อมูล */
-.input-fields .input {
-margin-bottom: 10px;
-}
 }

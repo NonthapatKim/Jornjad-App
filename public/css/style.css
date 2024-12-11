@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .add-marker-btn {
+    @apply fixed bottom-5 right-5 bg-[#321303] text-white border-none rounded-2xl py-2 px-5 flex items-center justify-center shadow-lg cursor-pointer z-[1001];
+    font-family: "IBM Plex Sans Thai";
+  }
+  .add-marker-btn img {
+    margin-left: 5px; /* เพิ่มระยะห่างระหว่างข้อความกับรูปภาพ */
+  }
+
+  .add-marker-btn:hover {
+    background-color: #0056b3; /* สีเข้มขึ้นเมื่อ hover */
+  }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* สไตล์สำหรับแผนที่ */
+nav {
+  position: relative; /* เปลี่ยนเป็น relative */
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Map */
+#map {
+  height: calc(100% - 64px); /* ลดความสูงด้วยขนาดของ navbar (64px) */
+  margin-top: 64px; /* เพิ่ม margin-top เท่ากับความสูงของ navbar */
+}
+
+#searchPlace {
+  flex: none; /* ไม่ยืดขยาย */
+  display: flex;
+  align-items: center;
+}
+
+#search {
+  height: 36px;
+  width: 350px;
+  border-radius: 4px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+}
+
+#result {
+  position: absolute; /* ซ้อนอยู่ใต้กล่องค้นหา */
+  top: 100%; /* วางด้านล่าง */
+  right: 0;
+  width: 29%; /* ให้มีความกว้างเท่ากับกล่องค้นหา */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none; /* ลบขอบด้านบนเพื่อให้ดูเป็นส่วนเดียวกัน */
+  max-height: 500px; /* จำกัดความสูง */
+  overflow-y: auto; /* เพิ่ม scroll เมื่อเนื้อหายาว */
+  z-index: 1000; /* ให้อยู่เหนือส่วนอื่น */
+}
+
+/* ทำให้ Navbar ซ้อนบนแผนที่ */
+nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* ทำให้ Navbar อยู่เหนือแผนที่ */
+}
+
+.modal {
+  display: none; /* ปกติจะซ่อน */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* สีพื้นหลังมืด */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 500px;
+  text-align: center;
+}
+
+.modal input,
+.modal button {
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.modal img {
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* ปรับปุ่มเลือกไฟล์ให้เป็นวงกลม */
+.file-upload-btn {
+  width: 100px;
+  height: 100px;
+  background-color: #b7b7b7; /* สีพื้นหลัง */
+  border-radius: 50%; /* ทำให้เป็นวงกลม */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
+
+.file-upload-btn:hover {
+  background-color: #8e5808; /* เปลี่ยนสีเมื่อ hover */
+}
+
+.file-upload-btn input[type="file"] {
+  display: none; /* ซ่อน input type file */
+}
+
+.file-upload-btn img {
+  width: 70px; /* ขนาดของไอคอน */
+  height: 70px; /* ขนาดของไอคอน */
+}
+
+/* เพิ่มช่องว่างระหว่างฟอร์มข้อมูล */
+.input-fields .input {
+  margin-bottom: 10px;
+}

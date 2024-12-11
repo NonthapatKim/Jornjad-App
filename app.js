@@ -1,14 +1,24 @@
 const express = require('express');
 const mysql = require('mysql2');
-const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer')
+
+// ENV
+require('dotenv').config();
 
 const app = express();
 const port = 3500;
 
+// EJS
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+
+app.use("/css", express.static("dist"))
+
 // ตั้งค่า Body parser
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));  
+app.use(express.json()); 
 
 // ให้ Express ให้บริการไฟล์ static (เช่น output.css)
 app.use(express.static(path.join(__dirname, 'src')));
@@ -17,10 +27,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // เชื่อมต่อกับฐานข้อมูล MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'Jornjad'
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT, // Default 3306
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect(err => {
@@ -44,15 +55,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/home.html'));
+  res.render("index");
 });
 
 app.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/register.html'));
+  res.render("register");
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/login.html'));
+  res.render("login");
 });
 
 app.post('/register', (req, res) => {

@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./output.css" rel="stylesheet">
+  <title>ลงทะเบียน | Register</title>
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/output.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Ensuring the navbar stays on top */
@@ -25,31 +27,23 @@
 </head>
 
 <header>
-    <nav class="bg-brown">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-            <div class="flex items-center space-x-4">
-              <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
-              <a href="./home.html" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
-            </div>
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4 ml-auto flex-row-reverse">
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">วิธีดูแล</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">โครงการช่วยเหลือ</a>
-                <a href="/login" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-gray-300 hover:bg-gray-700 hover:text-white">เข้าสู่ระบบ</a>
-              </div>
-            </div>
-          </div>
+  <nav class="bg-brown">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
+          <a href="/" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 </header>
 
 <body class="min-h-screen bg-gray-100">
     <div class="flex items-center justify-center form-container">
       <form action="/register" method="POST" class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
 
-         <p class="text-lg text-center mb-6">Register Form</p>
+         <p class="text-lg text-center font-bold mb-6">ลงทะเบียน</p>
           <div class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-4">
 
             <div class="sm:col-span-4">
@@ -128,21 +122,19 @@
 
             <!-- Button container centered -->
             <div class="sm:col-span-4 button-container mt-6">
-              <button 
-              type="button" 
-              class="text-sm font-semibold text-gray-900">
-              Cancel
-              </button>
-            
               <!-- ปุ่ม Save -->
               <button 
                 type="submit" 
-                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                Save
+                class="rounded-md bg-brown px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brown">
+                ลงทะเบียน
               </button>
             </div>
-
           </div>
+
+          <p class="mt-5 text-center text-sm/6 text-brown-500">
+            มีบัญชีอยู่แล้ว ?
+            <a href="/login" class="font-semibold text-lightbrown hover:text-orange-300">เข้าสู่ระบบ</a>
+          </p>
       </form>
   </div>
 </body>
