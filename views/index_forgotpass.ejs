@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html oncontextmenu="return false">
+<head>
+    
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f3f3f3; /* Soft background color */
+            font-family: 'IBM Plex Sans Thai', sans-serif; /* Updated font-family */
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .col-lg-6 {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1.ssh1, h4.ssh4 {
+            margin: 0;
+            padding-bottom: 10px;
+            color: #321303;
+        }
+
+        .ssh1 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .ssh4 {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .fieldbox {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 20px;
+            background-color: #ffffff;
+        }
+
+        .fieldbox legend {
+            font-size: 18px;
+            font-weight: bold;
+            color: #cd5c24;
+        }
+
+
+        .btn_Main, .btn_Second {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .btn_Second {
+            background-color: #321303; 
+            color: white;
+            text-decoration: none;
+            width: 80%;
+            margin: 10px auto 0 auto; /* Centers the button */
+            transition: background-color 0.3s ease; /* Smooth transition for hover */
+        }
+
+        .btn_Second:hover {
+            background-color: #c2502a; /* Darker blue on hover */
+        }
+
+        .txtCenter {
+            text-align: center;
+        }
+
+        .f400 {
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="col-lg-6">
+            <h1 class="txtLeft ssh1">Jornjad</h1>
+            <h4 class="txtLeft ssh4">TEMPORARY</h4>
+
+            <form action="/checkforgot" method="post" <%= vhf1 %>>                
+                <fieldset class="txtLeft fieldbox">
+                    <legend>ลืมรหัสผ่าน</legend>
+                    <p>หากคุณเป็นสมาชิกในเว็บไซต์นี้ โปรดใส่รหัสผู้ใช้ของคุณเพื่อตรวจสอบ</p>
+                    <label for="username">รหัสผู้ใช้ (User Name)</label>
+                    <input name="username" type="text" id="username" class="block100p br2 marb8" required>
+                    <% if (message) { %>
+                        <span class="f400" style="color: rgb(175, 34, 34); display: block;">
+                            <i class="fas fa-exclamation-circle"></i> <%- message %>
+                        </span>
+                    <% } %>
+                    <button type="submit" class="btn_Main br50">ยืนยัน</button>
+                    <a href="/checkLogin" class="btn_Second br50">เข้าสู่ระบบ</a>
+                </fieldset>
+            </form>
+
+            <div <%= vhf2 %>>
+                <fieldset class="txtLeft fieldbox">
+                    <legend>ลืมรหัสผ่าน</legend>
+                    <p class="txtCenter"><%- message %></p>
+                    <a href="/checkLogin" class="btn_Second br50">เข้าสู่ระบบ</a>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -619,8 +619,7 @@ video {
 }
 
 .add-marker-btn:hover {
-  background-color: #0056b3;
-  /* สีเข้มขึ้นเมื่อ hover */
+  background-color: #AA623C;
 }
 
 .sr-only {
@@ -637,6 +636,10 @@ video {
 
 .visible {
   visibility: visible;
+}
+
+.fixed {
+  position: fixed;
 }
 
 .absolute {
@@ -664,10 +667,6 @@ video {
   margin-bottom: 2.5rem;
 }
 
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
-
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -678,10 +677,6 @@ video {
 
 .mb-6 {
   margin-bottom: 1.5rem;
-}
-
-.me-2 {
-  margin-inline-end: 0.5rem;
 }
 
 .ml-2 {
@@ -698,6 +693,10 @@ video {
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-20 {
+  margin-top: 5rem;
 }
 
 .mt-24 {
@@ -784,6 +783,10 @@ video {
   flex: 1 1 0%;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -810,6 +813,10 @@ video {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .items-center {
@@ -911,11 +918,6 @@ video {
 
 .border-gray-900\/25 {
   border-color: rgb(17 24 39 / 0.25);
-}
-
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
 }
 
 .bg-brown {
@@ -1630,6 +1632,18 @@ nav {
   background-color: transparent;
 }
 
+.form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .placeholder\:text-gray-400::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
@@ -1697,14 +1711,9 @@ nav {
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
 }
 
-.hover\:bg-white:hover {
+.hover\:bg-lightbrown:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:text-black:hover {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+  background-color: rgb(206 72 3 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-gray-900:hover {
@@ -1742,12 +1751,6 @@ nav {
 
 .focus\:outline-brown:focus {
   outline-color: #321303;
-}
-
-.focus\:ring-4:focus {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
 .focus\:ring-white:focus {

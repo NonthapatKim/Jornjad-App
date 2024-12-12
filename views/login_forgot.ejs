@@ -1,0 +1,301 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/icon-white.png">
+  <title>เข้าสู่ระบบ | Login</title>
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/output.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+          .form-container {
+            position: fixed; /* คงตำแหน่งในหน้าจอ */
+            top: 0;
+            left: 0;
+            width: 100%; /* ครอบคลุมหน้าจอทั้งหมด */
+            height: 100%; /* ความสูงเต็มจอ */
+            display: flex;
+            align-items: center; /* จัดตรงกลางในแนวตั้ง */
+            justify-content: center; /* จัดตรงกลางในแนวนอน */
+            overflow: hidden; /* ป้องกันฟอร์มล้น */
+        }
+</style>
+<body>
+
+  <!-- Header Section --
+  <header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
+            <a href="/" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Login Section --
+  <div class="flex min-h-full flex-col justify-center form-container px-6 py-12 mt-10 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-20 w-auto" src="https://img5.pic.in.th/file/secure-sv1/Vectoracec03157f3fd8ad.png" alt="Your Company">
+      <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">เข้าสู่ระบบ</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form 
+        class="space-y-6" 
+        action="/chacklogin" 
+        method="POST"
+      >
+        <!-- Email Input --
+        <div>
+          <label 
+            for="Username" 
+            class="block text-sm/6 text-black font-bold">
+            อีเมล/ชื่อผู้ใช้<span class="text-red-600 font-bold">*</span>
+          </label>
+          <div class="mt-2">
+            <input 
+              type="text" 
+              name="username" 
+              id="username" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6"
+              placeholder="อีเมล/ชื่อผู้ใช้"
+              >
+          </div>
+          <p class="text-red-600 mt-2" id="errorUsername"></p>
+        </div>
+        
+        <!-- Password Input --
+        <div>
+          <div class="flex items-center justify-between">
+            <label 
+              for="password" 
+              class="block text-sm/6 text-black font-bold">
+              รหัสผ่าน<span class="text-red-600 font-bold">*</span>
+            </label>
+          </div>
+          <div class="mt-2">
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6"
+              placeholder="รหัสผ่าน"
+            >
+          </div>
+          <p class="text-red-600 mt-2" id="errorPassword"></p>
+        </div>
+
+        <div id="error-message" class="hidden p-3 bg-red-200 text-red-500 font-bold">
+          <p id="error-text"></p>
+        </div>
+        
+        <!-- Sign-in Button --
+        <button 
+          type="submit" 
+          class="flex w-full justify-center rounded-md bg-brown px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lightbrown"
+        >
+          เข้าสู่ระบบ
+        </button>
+      
+      <!-- Register Link --
+      </form>
+    </div>
+  </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/icon-white.png">
+  <title>เข้าสู่ระบบ | Login</title>
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/output.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Add jQuery -->
+</head>
+<style>
+  .form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+</style>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
+            <a href="/" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Login Section -->
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 mt-10 lg:px-8 form-container" >
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-20 w-auto" src="https://img5.pic.in.th/file/secure-sv1/Vectoracec03157f3fd8ad.png" alt="Your Company">
+      <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">เข้าสู่ระบบ</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form 
+        class="space-y-6" 
+        action="checklogin" 
+        method="POST"
+      >
+        <!-- Email Input -->
+        <div>
+          <label 
+            for="Username" 
+            class="block text-sm/6 text-black font-bold">
+            อีเมล/ชื่อผู้ใช้<span class="text-red-600 font-bold">*</span>
+          </label>
+          <div class="mt-2">
+            <input 
+              type="text" 
+              name="username" 
+              id="username" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6"
+              placeholder="อีเมล/ชื่อผู้ใช้"
+              >
+          </div>
+          <p class="text-red-600 mt-2" id="errorUsername"></p>
+        </div>
+        
+        <!-- Password Input -->
+        <div>
+          <div class="flex items-center justify-between">
+            <label 
+              for="password" 
+              class="block text-sm/6 text-black font-bold">
+              รหัสผ่าน<span class="text-red-600 font-bold">*</span>
+            </label>
+            <div class="text-sm">
+              <a href="/checkforgot" class="font-semibold text-lightbrown hover:text-orange-300">ลืมรหัสผ่าน?</a>
+            </div>
+          </div>
+          <div class="mt-2">
+            <input 
+              type="password" 
+              name="password" 
+              id="password" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6"
+              placeholder="รหัสผ่าน"
+            >
+          </div>
+          <p class="text-red-600 mt-2" id="errorPassword"></p>
+        </div>
+
+        <div id="error-message" class="hidden p-3 bg-red-200 text-red-500 font-bold">
+          <p id="error-text"></p>
+        </div>
+        
+        <!-- Sign-in Button -->
+        <button 
+          type="submit" 
+          class="flex w-full justify-center rounded-md bg-brown px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lightbrown"
+        >
+          เข้าสู่ระบบ
+        </button>
+      </form>
+      
+      <!-- Register Link -->
+      <p class="mt-10 text-center text-sm/6 text-brown-500">
+        ยังไม่มีบัญชี?
+        <a href="/register" class="font-semibold text-lightbrown hover:text-orange-300">ลงทะเบียน</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+        const form = $("form");
+        const inputs = form.find("input");
+
+        const showError = (input, message) => {
+            const errorId = `error${capitalize(input.name)}`;
+            const errorElement = $(`#${errorId}`);
+
+            if (errorElement.length) {
+                errorElement.text(message);
+            }
+
+            $(input).removeClass("outline-gray-300").addClass("outline-red-600");
+        };
+
+        const clearErrors = () => {
+            inputs.each(function () {
+                const input = $(this);
+                const errorId = `error${capitalize(input.attr("name"))}`;
+                const errorElement = $(`#${errorId}`);
+
+                if (errorElement.length) {
+                    errorElement.text("");
+                }
+
+                input.removeClass("outline-red-600").addClass("outline-gray-300");
+            });
+        };
+
+        const validateField = (input) => {
+            const name = input.name;
+            const value = input.value.trim();
+
+            if (!value) {
+                showError(input, `กรุณากรอกข้อมูล`);
+                return false;
+            }
+
+            if (name === "username") {
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                        showError(input, "รูปแบบอีเมลไม่ถูกต้อง");
+                        return false;
+                    }
+                } else {
+                    if (value.length < 3) {
+                        showError(input, "ชื่อผู้ใช้ต้องมีความยาวอย่างน้อย 3 ตัวอักษร");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        };
+
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+        inputs.each(function () {
+            $(this).on("blur", function () {
+                clearErrors();
+                validateField(this);
+            });
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

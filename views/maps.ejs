@@ -16,8 +16,8 @@
     <div id="map"></div>
 
     <% if (session.userId) { %>
-      <button id="add-marker-btn" class="add-marker-btn">
-        <span class="font-sans font-medium">+ เพิ่ม</span>
+      <button id="add-marker-btn" class="add-marker-btn ">
+        <span class="font-sans font-medium ">+ เพิ่ม</span>
         <img
           class="h-8 w-auto"
           src="https://img2.pic.in.th/pic/ph_cat.png"
@@ -32,7 +32,7 @@
 
       <div id="markerModal" class="CustomModal" style="display: none">
         <div class="modal-content mt-10">
-          <h1 class="text-xl font-semibold text-gray-900">
+          <h1 class="text-xl font-semibold text-gray-900 ">
             เพิ่มข้อมูลน้องหมาน้องแมว
           </h1>
           <form
@@ -193,7 +193,7 @@
 
               <button
                 type="submit"
-                class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown"
+                class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-lightbrown"
               >
                 บันทึก
               </button>
@@ -218,7 +218,7 @@
 
       <div id="loginModal" class="CustomModal" style="display: none">
         <div class="modal-content">
-          <h1 class="text-xl font-semibold text-gray-900">
+          <h1 class="text-xl font-semibold text-gray-900 ">
             กรุณาล็อกอินเพื่อเพิ่มข้อมูล
           </h1>
           <div class="flex items-center justify-end gap-4 mt-6">
@@ -232,7 +232,7 @@
 
             <a
               href="/login"
-              class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown inline-flex items-center justify-center h-10"
+              class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown inline-flex items-center justify-center h-10 hover:bg-lightbrown"
             >
               เข้าสู่ระบบ
             </a>

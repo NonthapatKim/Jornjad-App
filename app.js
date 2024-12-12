@@ -2,7 +2,9 @@ const express = require("express");
 const session = require('express-session');
 const mysql = require("mysql2");
 const path = require("path");
+const fs = require("fs");
 const multer = require("multer");
+const nodemailer = require('nodemailer');
 
 // UUID
 const { v4: uuidv4 } = require("uuid");
@@ -104,6 +106,18 @@ app.get("/geo-test", (req, res) => {
   res.render("geo-test")
 })
 
+app.get("/checkforgot", (req, res) => {
+  res.render("forgotPassword")
+})
+
+app.get("/checkLogin", (req, res) => {
+  res.render("login_forgot")
+})
+
+app.get("/changepassword", (req, res) => {
+  res.render("edit")
+})
+
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -115,7 +129,7 @@ app.post("/login", (req, res) => {
     }
     
     if (result.length === 0) {
-      return res.status(400).send("ชื่อผู้ใช้งาน หรือ อีเมล หรือรหัสผ่านไม่ถูกต้อง");
+      return res.status(400).send("ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง");
     }
 
     const user = result[0];
@@ -136,11 +150,11 @@ app.post("/login", (req, res) => {
             return res.status(500).send("Error updating last active time");
           }
 
-          return res.status(200).json({ message: "Login successful" });
+          return res.status(200).json("Login successful" );
         }
       );
     } else {
-      return res.status(401).json({ message: "ชื่อผู้ใช้งาน หรือ อีเมล หรือรหัสผ่านไม่ถูกต้อง" });
+      return res.status(401).json( "ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง" );
     }
   });
 });
@@ -184,12 +198,11 @@ app.get('/logout', (req, res) => {
       if (err) {
           return res.status(500).json({ message: 'Error logging out' });
       }
-      res.redirect('/');
+      res.redirect('/login');
   });
 });
 
 app.post("/add-animal", upload.single("image"), (req, res) => {
-  // ตรวจสอบและตั้งค่าเป็น null หากค่าของฟิลด์เป็นค่าว่าง
   const {
     name = null,
     address = null,
@@ -201,7 +214,6 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
     sterilization = null
   } = req.body;
 
-  // หากค่าที่ส่งมาคือค่าว่าง ให้เปลี่ยนเป็น null
   const finalDetails = details === "" ? null : details;
   const finalName = name === "" ? null : name;
   const finalAddress = address === "" ? null : address;
@@ -211,11 +223,16 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
   const finalHealth = health === "" ? null : health;
   const finalSterilization = sterilization === "" ? null : sterilization;
 
-  // สร้าง id และตรวจสอบว่าไฟล์ถูกอัปโหลดหรือไม่
   const id = uuidv4();
-  const originalFilename = req.file ? req.file.filename : null;
-  const [filename, extension] = originalFilename.split('.');
-  const imageUrl = req.file ? `${id}.${extension}` : null;
+  let imageUrl = null;
+
+  if (req.file) {
+    const extension = path.extname(req.file.originalname);
+    imageUrl = `${id}${extension}`; 
+    const newFilePath = path.join(req.file.destination, imageUrl); 
+
+    fs.renameSync(req.file.path, newFilePath);
+  }
 
   const query = `
     INSERT INTO animals (
@@ -233,7 +250,6 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  // ใช้ db.query เพื่อบันทึกข้อมูลลงฐานข้อมูล
   db.query(
     query,
     [
@@ -285,6 +301,213 @@ app.get("/get-animal/:id", (req, res) => {
     return res.status(200).json(result);
   })
 })
+
+function sendmail(toemail, subject, html) {
+  const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      service: 'gmail',  
+      auth: {
+      user: '65.285kansinee@gmail.com',   // your email
+      //pass: 'Sittichai7749!'  // your email password
+      pass: 'ajan ezpi tizh bhqg'    // for app password
+      }
+  });
+
+// send mail with defined transport object
+  let mailOptions = {
+      from: '"COSCI - Test mail" <65.285kansinee@gmail.com>',  // sender address
+      to: toemail,    // list of receivers
+      subject: subject,   // Subject line
+      // text: textMail
+      html: html     // html mail body
+  };
+
+// send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.log(error);
+          res.send('เกิดข้อผิดพลาด ไม่สามารถส่งอีเมลได้ โปรดลองใหม่ภายหลัง');
+      }
+      else {
+      // console.log('INFO EMAIL:', info);
+      console.log("send email successful");
+      }
+  });
+}
+
+
+
+// Handle login authentication
+app.post("/checklogin", (req, res) => {
+  const { username, password } = req.body;
+
+  if (username && password) {
+      db.query("SELECT * FROM accounts WHERE username = ?", [username], (err, results) => {
+          if (err) {
+              console.error("Database connection error:", err);
+              return res.render("index_error", {
+                  message: "เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล",
+                  id: username
+              });
+          }
+
+          if (results.length > 0) {
+              bcrypt.compare(password, results[0].password, (err, isMatch) => {
+                  if (err) {
+                      console.error("Password comparison error:", err);
+                      return res.render("index_error", {
+                          message: "เกิดข้อผิดพลาดในการเปรียบเทียบรหัสผ่าน",
+                          id: username
+                      });
+                  }
+
+                  if (isMatch) {
+                      req.session.loggedin = true;
+                      req.session.username = username;
+                      res.redirect("/changepassword");
+                  } else {
+                      res.render("index_error", {
+                          message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+                          id: username
+                      });
+                  }
+              });
+          } else {
+              res.render("index_error", {
+                  message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+                  id: username
+              });
+          }
+      });
+  } else {
+      res.render("index_error", {
+          message: "โปรดใส่ข้อมูลให้ครบถ้วน!!",
+          id: username
+      });
+  }
+});
+    
+
+
+app.post("/changepassword", async (req, res) => {
+  const { newPassword, retypePassword } = req.body;
+
+  // ตรวจสอบว่ารหัสผ่านทั้งสองช่องตรงกันหรือไม่
+  if (!newPassword || !retypePassword) {
+    return res.status(400).json({
+      message: "โปรดกรอกข้อมูลให้ครบถ้วน",
+      redirect: false,
+    });
+  }
+
+  if (newPassword !== retypePassword) {
+    return res.status(400).json({
+      message: "รหัสผ่านทั้งสองช่องไม่ตรงกัน",
+      redirect: false,
+    });
+  }
+
+  try {
+    // Hash รหัสผ่านใหม่
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // สมมติว่าคุณดึง username จาก session
+    const username = req.session.username;
+
+    if (!username) {
+      return res.status(401).json({
+        message: "ไม่ได้เข้าสู่ระบบ โปรดเข้าสู่ระบบก่อนทำการเปลี่ยนรหัสผ่าน",
+        redirect: "/login",
+      });
+    }
+
+    // อัปเดตรหัสผ่านในฐานข้อมูล
+    db.query(
+      "UPDATE accounts SET password = ? WHERE username = ?",
+      [hashedPassword, username],
+      (err, results) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({
+            message: "เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน",
+            redirect: false,
+          });
+        }
+
+        if (results.affectedRows > 0) {
+            req.session.message = "เปลี่ยนรหัสผ่านสำเร็จ";
+            res.redirect("/login");
+        } else {
+          return res.status(400).json({
+            message: "ไม่พบผู้ใช้ที่ต้องการเปลี่ยนรหัสผ่าน",
+            redirect: false,
+          });
+        }
+      }
+    );
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "เกิดข้อผิดพลาดทางเซิร์ฟเวอร์",
+      redirect: false,
+    });
+  }
+});
+
+app.post("/checkforgot", (req, res) => {
+  const username = req.body.username;
+
+  if (username) {
+      db.query("SELECT * FROM accounts WHERE username = ?", [username], (err, rows) => {
+          if (err) {
+              console.error("Database error:", err);
+              return res.status(500).send("Database error");
+          }
+
+          if (rows.length > 0) {
+              const randomPass = Math.random().toString(36).substring(2, 10);
+              const email = rows[0].email;
+              const subject = "Password Reset Request";
+              const html = `สวัสดี คุณ ${rows[0].username}<br>รหัสผ่านใหม่ของคุณ คือ &nbsp;${randomPass}`;
+
+              sendmail(email, subject, html);
+              bcrypt.hash(randomPass, 10, (err, hashedPass) => {
+                  if (err) {
+                      console.error("Hashing error:", err);
+                      return res.status(500).send("Internal error");
+                  }
+
+                  db.query("UPDATE accounts SET password = ? WHERE username = ?", [hashedPass, username], (err) => {
+                      if (err) {
+                          console.error("Update error:", err);
+                          return res.status(500).send("Update error");
+                      }
+
+                      res.render("index_forgotpass", {
+                          message: `รหัสผ่านใหม่ได้ถูกส่งไปยังอีเมลของคุณ "${email}". โปรดตรวจสอบอีเมลของคุณ`,
+                          vhf1: 'hidden',  // Add this to pass vhf1
+                          vhf2: 'visible'  // Add this to pass vhf2
+                      });
+                  });
+              });
+          } else {
+              res.render("index_forgotpass", {
+                  message: "ไม่พบชื่อผู้ใช้นี้",
+                  vhf1: 'visible',
+                  vhf2: 'hidden'
+              });
+          }
+      });
+  } else {
+      res.render("index_forgotpass", {
+          message: "โปรดใส่ชื่อผู้ใช้",
+          vhf1: 'visible',
+          vhf2: 'hidden'
+      });
+  }
+});
+
+
 
 // เริ่มต้น server
 app.listen(port, () => {

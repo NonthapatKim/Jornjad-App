@@ -32,6 +32,43 @@
         .scrolled {
             transform: translateY(-70px); /* เมื่อเลื่อนลง จะย้ายภาพขึ้นไป 50px */
         }
+        .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: space-between;
+    width: 100%;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;  /* This makes the boxes take equal space */
+    min-width: 250px; /* Adjust based on your design */
+}
+
+.blog_entry {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures the box stretches */
+}
+
+.p-4 {
+    flex-grow: 1; /* This makes sure the text section grows to fill the available space */
+    padding: 1.25rem;
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+}
+
     </style>
 </head>
 <body>
@@ -42,7 +79,7 @@
 
         <div class="text-overlay">
             <h1 class="text-center text-brown">มาเป็นส่วนหนึ่งในการช่วยเหลือได้ที่นี่</h1>
-            <p class="text-center text-black">คุณเอง ก็ช่วยดูแลได้สัตว์จรได้</p>
+            <p class="text-center text-black">คุณเองก็สามารถเป็นส่วนหนึ่งในการช่วยเหลือสัตว์จรจัดได้</p>
             <!-- <div class="px-4 py-2 font-medium text-white bg-brown rounded-md hover:bg-brown" 
                 href="./login.html">
                 Sign up
@@ -66,7 +103,7 @@
                     <div class="p-4 bg-white">
                         <h3><a href="#">สนับสนุนที่พักพิง</a></h3>
                         <p>สร้างและสนับสนุนที่พักพิงให้สัตว์จรจัดมีที่อยู่ปลอดภัย</p>
-                        <p class="more"><a href="#">อ่านเพิ่มเติม...</a></p>
+                        <p class="more"><a href="https://www.thaipbs.or.th/news/content/314447">อ่านเพิ่มเติม...</a></p>
                     </div>
                     </div>
                 </div>
@@ -77,7 +114,7 @@
                     <div class="p-4 bg-white">
                         <h3><a href="#">การดูแลสุขภาพ</a></h3>
                         <p>จัดหาบริการทางการแพทย์ให้เข้าถึงกับสัตว์จรจัดที่ต้องช่วยเหลือ</p>
-                        <p class="more"><a href="#">อ่านเพิ่มเติม...</a></p>
+                        <p class="more"><a href="https://www.soidog.org/th/content/rescue-and-treatment">อ่านเพิ่มเติม...</a></p>
                     </div>
                     </div>
                 </div>
@@ -87,13 +124,14 @@
                     <a href="#"><img src="/images/index3.jpeg" alt="Mission Image" class="img-fluid"></a>
                     <div class="p-4 bg-white">
                         <h3><a href="#">โครงการรับเลี้ยง</a></h3>
-                        <p>ช่วยเหลือสัตว์จรจัดให้ได้รับโอกาสบ้านใหม่ที่อบอุ่น<br><br></p>
-                        <p class="more"><a href="#">อ่านเพิ่มเติม...</a></p>
+                        <p>ช่วยเหลือสัตว์จรจัดให้ได้รับโอกาสได้อาศัยในบ้านใหม่ที่แสนจะอบอุ่น</p>
+                        <p class="more"><a href="https://www.scasset.com/th/blog/inspiration/dog-adoption-centers/">อ่านเพิ่มเติม...</a></p>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
 
     <%- include("partials/footer") -%>

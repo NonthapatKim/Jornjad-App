@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Ensuring the navbar stays on top */
+        header {
+          z-index: 10;
+          position: relative;
+        }
+
+        /* Center buttons horizontally */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+    </style>
+</head>
+
+<header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <img class="h-8 w-auto" src="https://img5.pic.in.th/file/secure-sv1/icond20f3dc8901d2230.png" alt="Your Company">
+              <a href="/home" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+</header>
+
+<body class="min-h-screen bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen form-container">
+            <div id="error-message" class="hidden p-3 bg-red-200 text-red-500 font-bold">
+                <p id="error-text"></p>
+              </div>
+        <form action="changepassword" method="POST" class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+            <div class="grid grid-cols-1 gap-y-4 sm:col-span-4">
+                <p class="text-center text-brown text-lg font-bold">Change Password</p>
+
+                    <div class="sm:col-span-4">
+                        <label for="password" class="block text-sm font-medium text-gray-900">รหัสผ่าน</label>
+                        <div class="mt-2">
+                            <input type="password" id="newPassword" name="newPassword" 
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6" placeholder="รหัสผ่าน">
+                        </div>
+                        <p class="text-red-600 mt-2" id="errorNewPassword"></p>
+                    </div>
+            
+  
+                    <div class="sm:col-span-4">
+                        <label for="retypePassword" class="block text-sm font-medium text-gray-900">ยืนยันรหัสผ่าน</label>
+                        <div class="mt-2">
+                            <input type="password" id="retypePassword" name="retypePassword" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-brown sm:text-sm/6" placeholder="ยืนยันรหัสผ่าน">
+                        </div>
+                        <p class="text-red-600 mt-2" id="errorRetypePassword"></p>
+                    </div>
+                
+                    <div class="sm:col-span-4 button-container mt-6">
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-brown px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lightbrown"
+                        >Submit</button>
+                    </div>
+                
+                </div>
+            </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            const form = $("form");
+            const inputs = form.find("input");
+
+            const showError = (input, message) => {
+                const errorId = `error${capitalize(input.name)}`;
+                const errorElement = $(`#${errorId}`);
+
+                if (errorElement.length) {
+                    errorElement.text(message);
+                }
+
+                $(input).removeClass("outline-gray-300").addClass("outline-red-600");
+            };
+
+            const clearErrors = () => {
+                inputs.each(function () {
+                    const input = $(this);
+                    const errorId = `error${capitalize(input.attr("name"))}`;
+                    const errorElement = $(`#${errorId}`);
+
+                    if (errorElement.length) {
+                        errorElement.text("");
+                    }
+
+                    input.removeClass("outline-red-600").addClass("outline-gray-300");
+                });
+            };
+
+            const validateField = (input) => {
+                const name = input.name;
+                const value = input.value.trim();
+
+                if (!value) {
+                    showError(input, `กรุณากรอกข้อมูล`);
+                    return false;
+                }
+
+                if (name === "newPassword" && value.length < 8) {
+                    showError(input, "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร");
+                    return false;
+                    }
+
+                    if (name === "retypePassword") {
+                    const password = form.find("input[name='newPassword']").val();
+                    if (value !== password) {
+                        showError(input, "รหัสผ่านไม่ตรงกัน");
+                        return false;
+                    }
+                    }
+
+                return true;
+            };
+
+            const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+            inputs.each(function () {
+                $(this).on("blur", function () {
+                    clearErrors();
+                    validateField(this);
+                });
+            });
+        });
+    </script>
+    <script>
+        async function handleChangePassword(event) {
+            event.preventDefault();
+
+            const newPassword = document.querySelector('#newPassword').value;
+            const retypePassword = document.querySelector('#retypePassword').value;
+
+            const response = await fetch('/changepassword', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ newPassword, retypePassword })
+            });
+
+            const result = await response.json();
+            if (result.message) {
+                showNotification(result.message);
+            }
+
+            if (result.redirect) {
+                window.location.href = result.redirect;
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            notificationMessage.textContent = message;
+            notification.classList.remove('hidden');
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 5000); // Hide notification after 5 seconds
+        }
+    </script>
+
+</body>
+</html>
+
+

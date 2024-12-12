@@ -13,7 +13,7 @@
   }
 
   .add-marker-btn:hover {
-    background-color: #0056b3; /* สีเข้มขึ้นเมื่อ hover */
+    background-color: #AA623C; 
   }
 }
 
@@ -247,6 +247,7 @@ nav {
 .blog_entry .p-4 {
   padding: 1rem;
 }
+
 .blog_entry h3 {
   font-size: 1.25rem;
   font-weight: bold;
@@ -316,3 +317,15 @@ nav {
   left: 0;
   background-color: transparent;
 }
+
+  .form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }

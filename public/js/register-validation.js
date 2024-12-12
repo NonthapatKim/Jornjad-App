@@ -37,6 +37,11 @@ $(document).ready(function() {
       return false;
     }
 
+    if (name === "username" && value.length < 3 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      showError(input, "ชื่อผู้ใช้ต้องมีความยาวอย่างน้อย 3 ตัวอักษร");
+      return false;
+    }
+
     if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
       showError(input, "รูปแบบอีเมลไม่ถูกต้อง");
       return false;
