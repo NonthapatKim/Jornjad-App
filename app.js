@@ -71,6 +71,37 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+function sendmail(toemail, subject, html) {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_NAME,
+      pass: process.env.EMAIL_PASSCODE,
+    },
+  });
+
+  // send mail with defined transport object
+  let mailOptions = {
+    from: '"COSCI - Test mail" <65.285kansinee@gmail.com>', // sender address
+    to: toemail, // list of receivers
+    subject: subject, // Subject line
+    // text: textMail
+    html: html, // html mail body
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.send("เกิดข้อผิดพลาด ไม่สามารถส่งอีเมลได้ โปรดลองใหม่ภายหลัง");
+    } else {
+      // console.log('INFO EMAIL:', info);
+      console.log("send email successful");
+    }
+  });
+}
+
 app.use((req, res, next) => {
   res.locals.currentUrl = req.originalUrl;
   next();
@@ -306,38 +337,6 @@ app.get("/get-animal/:id", (req, res) => {
     return res.status(200).json(result);
   });
 });
-
-function sendmail(toemail, subject, html) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    service: "gmail",
-    auth: {
-      user: "65.285kansinee@gmail.com", // your email
-      //pass: 'Sittichai7749!'  // your email password
-      pass: "ajan ezpi tizh bhqg", // for app password
-    },
-  });
-
-  // send mail with defined transport object
-  let mailOptions = {
-    from: '"COSCI - Test mail" <65.285kansinee@gmail.com>', // sender address
-    to: toemail, // list of receivers
-    subject: subject, // Subject line
-    // text: textMail
-    html: html, // html mail body
-  };
-
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.send("เกิดข้อผิดพลาด ไม่สามารถส่งอีเมลได้ โปรดลองใหม่ภายหลัง");
-    } else {
-      // console.log('INFO EMAIL:', info);
-      console.log("send email successful");
-    }
-  });
-}
 
 // Handle login authentication
 app.post("/checklogin", async (req, res) => {
