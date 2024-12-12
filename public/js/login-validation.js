@@ -82,8 +82,8 @@ $(document).ready(function () {
       url: form.attr("action"),  // URL ที่ส่งข้อมูลไป
       method: "POST",
       data: formData,
-      success: function (response) {
-        if (response.message === "Login successful") {
+      success: function (response) {        
+        if (response === "Login successful") {
           alert("เข้าสู่ระบบสำเร็จ !");
           window.location.href = '/home';
         }

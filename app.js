@@ -1,10 +1,10 @@
 const express = require("express");
-const session = require('express-session');
+const session = require("express-session");
 const mysql = require("mysql2");
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 // UUID
 const { v4: uuidv4 } = require("uuid");
@@ -16,7 +16,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const app = express();
-const port = 3500;
+const port = 8591;
 
 // EJS
 app.set("views", path.join(__dirname, "views"));
@@ -29,15 +29,17 @@ app.use("/css", express.static("dist"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(session({
-  secret: process.env.SECRET_KEY,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, 
-    maxAge: 1000 * 60 * 60 // 1 hour
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60, // 1 hour
+    },
+  })
+);
 
 // ให้ Express ให้บริการไฟล์ static (เช่น output.css)
 app.use(express.static(path.join(__dirname, "src")));
@@ -79,19 +81,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
-  res.render('index', { session: req.session });
+  res.render("index", { session: req.session });
 });
 
 app.get("/care", (req, res) => {
-  res.render('care', { session: req.session });
-})
+  res.render("care", { session: req.session });
+});
 
 app.get("/foundation", (req, res) => {
-  res.render('foundation', { session: req.session });
-})
+  res.render("foundation", { session: req.session });
+});
 
 app.get("/maps", (req, res) => {
-  res.render('maps', { session: req.session });
+  res.render("maps", { session: req.session });
 });
 
 app.get("/register", (req, res) => {
@@ -103,20 +105,20 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/geo-test", (req, res) => {
-  res.render("geo-test")
-})
+  res.render("geo-test");
+});
 
 app.get("/checkforgot", (req, res) => {
-  res.render("forgotPassword")
-})
+  res.render("forgotPassword");
+});
 
 app.get("/checkLogin", (req, res) => {
-  res.render("login_forgot")
-})
+  res.render("login_forgot");
+});
 
 app.get("/changepassword", (req, res) => {
-  res.render("edit")
-})
+  res.render("edit");
+});
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
@@ -127,9 +129,11 @@ app.post("/login", (req, res) => {
       console.error("Error checking existing user:", err);
       return res.status(500).send("Error checking user in the database");
     }
-    
+
     if (result.length === 0) {
-      return res.status(400).send("ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง");
+      return res
+        .status(400)
+        .send("ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง");
     }
 
     const user = result[0];
@@ -142,19 +146,21 @@ app.post("/login", (req, res) => {
       const currentDate = new Date();
 
       db.query(
-        "UPDATE accounts SET last_actived_at = ? WHERE id = ?", 
+        "UPDATE accounts SET last_actived_at = ? WHERE id = ?",
         [currentDate, user.id],
-        (updateErr, updateResult) => {
+        (updateErr) => {
           if (updateErr) {
             console.error("Error updating last active time:", updateErr);
             return res.status(500).send("Error updating last active time");
           }
 
-          return res.status(200).json("Login successful" );
+          return res.status(200).json("Login successful");
         }
       );
     } else {
-      return res.status(401).json( "ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง" );
+      return res
+        .status(401)
+        .json("ชื่อผู้ใช้งาน หรือ อีเมล หรือ รหัสผ่านไม่ถูกต้อง");
     }
   });
 });
@@ -193,12 +199,12 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.get('/logout', (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
-      if (err) {
-          return res.status(500).json({ message: 'Error logging out' });
-      }
-      res.redirect('/login');
+    if (err) {
+      return res.status(500).json({ message: "Error logging out" });
+    }
+    res.redirect("/login");
   });
 });
 
@@ -211,7 +217,7 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
     details = null,
     animal = null,
     health = null,
-    sterilization = null
+    sterilization = null,
   } = req.body;
 
   const finalDetails = details === "" ? null : details;
@@ -228,8 +234,8 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
 
   if (req.file) {
     const extension = path.extname(req.file.originalname);
-    imageUrl = `${id}${extension}`; 
-    const newFilePath = path.join(req.file.destination, imageUrl); 
+    imageUrl = `${id}${extension}`;
+    const newFilePath = path.join(req.file.destination, imageUrl);
 
     fs.renameSync(req.file.path, newFilePath);
   }
@@ -262,7 +268,7 @@ app.post("/add-animal", upload.single("image"), (req, res) => {
       finalAnimal,
       finalHealth,
       finalSterilization,
-      imageUrl
+      imageUrl,
     ],
     (err) => {
       if (err) {
@@ -284,12 +290,11 @@ app.get("/get-animal", (req, res) => {
     }
 
     return res.status(200).json(result);
-  })
-})
+  });
+});
 
 app.get("/get-animal/:id", (req, res) => {
-
-  const id = req.params.id
+  const id = req.params.id;
 
   const query = "SELECT * FROM animals WHERE id = ?";
   db.query(query, [id], (err, result) => {
@@ -299,95 +304,95 @@ app.get("/get-animal/:id", (req, res) => {
     }
 
     return res.status(200).json(result);
-  })
-})
+  });
+});
 
 function sendmail(toemail, subject, html) {
   const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      service: 'gmail',  
-      auth: {
-      user: '65.285kansinee@gmail.com',   // your email
+    host: "smtp.gmail.com",
+    service: "gmail",
+    auth: {
+      user: "65.285kansinee@gmail.com", // your email
       //pass: 'Sittichai7749!'  // your email password
-      pass: 'ajan ezpi tizh bhqg'    // for app password
-      }
+      pass: "ajan ezpi tizh bhqg", // for app password
+    },
   });
 
-// send mail with defined transport object
+  // send mail with defined transport object
   let mailOptions = {
-      from: '"COSCI - Test mail" <65.285kansinee@gmail.com>',  // sender address
-      to: toemail,    // list of receivers
-      subject: subject,   // Subject line
-      // text: textMail
-      html: html     // html mail body
+    from: '"COSCI - Test mail" <65.285kansinee@gmail.com>', // sender address
+    to: toemail, // list of receivers
+    subject: subject, // Subject line
+    // text: textMail
+    html: html, // html mail body
   };
 
-// send mail with defined transport object
+  // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          console.log(error);
-          res.send('เกิดข้อผิดพลาด ไม่สามารถส่งอีเมลได้ โปรดลองใหม่ภายหลัง');
-      }
-      else {
+    if (error) {
+      console.log(error);
+      res.send("เกิดข้อผิดพลาด ไม่สามารถส่งอีเมลได้ โปรดลองใหม่ภายหลัง");
+    } else {
       // console.log('INFO EMAIL:', info);
       console.log("send email successful");
-      }
+    }
   });
 }
 
-
-
 // Handle login authentication
-app.post("/checklogin", (req, res) => {
+app.post("/checklogin", async (req, res) => {
   const { username, password } = req.body;
 
   if (username && password) {
-      db.query("SELECT * FROM accounts WHERE username = ?", [username], (err, results) => {
-          if (err) {
-              console.error("Database connection error:", err);
-              return res.render("index_error", {
-                  message: "เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล",
-                  id: username
-              });
-          }
+    db.query(
+      "SELECT * FROM accounts WHERE username = ?",
+      [username],
+      async (err, results) => {
+        if (err) {
+          console.error("Database connection error:", err);
+          return res.render("index_error", {
+            message: "เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล",
+            id: username,
+          });
+        }
 
-          if (results.length > 0) {
-              bcrypt.compare(password, results[0].password, (err, isMatch) => {
-                  if (err) {
-                      console.error("Password comparison error:", err);
-                      return res.render("index_error", {
-                          message: "เกิดข้อผิดพลาดในการเปรียบเทียบรหัสผ่าน",
-                          id: username
-                      });
-                  }
+        if (results.length > 0) {
+          try {
+            // Use bcrypt.compare with async/await
+            const isMatch = await bcrypt.compare(password, results[0].password);
 
-                  if (isMatch) {
-                      req.session.loggedin = true;
-                      req.session.username = username;
-                      res.redirect("/changepassword");
-                  } else {
-                      res.render("index_error", {
-                          message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
-                          id: username
-                      });
-                  }
-              });
-          } else {
+            if (isMatch) {
+              req.session.loggedin = true;
+              req.session.username = username;
+              res.redirect("/changepassword");
+            } else {
               res.render("index_error", {
-                  message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
-                  id: username
+                message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+                id: username,
               });
+            }
+          } catch (err) {
+            console.error("Password comparison error:", err);
+            return res.render("index_error", {
+              message: "เกิดข้อผิดพลาดในการเปรียบเทียบรหัสผ่าน",
+              id: username,
+            });
           }
-      });
+        } else {
+          res.render("index_error", {
+            message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+            id: username,
+          });
+        }
+      }
+    );
   } else {
-      res.render("index_error", {
-          message: "โปรดใส่ข้อมูลให้ครบถ้วน!!",
-          id: username
-      });
+    res.render("index_error", {
+      message: "โปรดใส่ข้อมูลให้ครบถ้วน!!",
+      id: username,
+    });
   }
 });
-    
-
 
 app.post("/changepassword", async (req, res) => {
   const { newPassword, retypePassword } = req.body;
@@ -435,8 +440,8 @@ app.post("/changepassword", async (req, res) => {
         }
 
         if (results.affectedRows > 0) {
-            req.session.message = "เปลี่ยนรหัสผ่านสำเร็จ";
-            res.redirect("/login");
+          req.session.message = "เปลี่ยนรหัสผ่านสำเร็จ";
+          res.redirect("/login");
         } else {
           return res.status(400).json({
             message: "ไม่พบผู้ใช้ที่ต้องการเปลี่ยนรหัสผ่าน",
@@ -454,62 +459,69 @@ app.post("/changepassword", async (req, res) => {
   }
 });
 
-app.post("/checkforgot", (req, res) => {
+app.post("/checkforgot", async (req, res) => {
   const username = req.body.username;
 
   if (username) {
-      db.query("SELECT * FROM accounts WHERE username = ?", [username], (err, rows) => {
-          if (err) {
-              console.error("Database error:", err);
-              return res.status(500).send("Database error");
+    db.query(
+      "SELECT * FROM accounts WHERE username = ?",
+      [username],
+      async (err, rows) => {
+        if (err) {
+          console.error("Database error:", err);
+          return res.status(500).send("Database error");
+        }
+
+        if (rows.length > 0) {
+          const randomPass = Math.random().toString(36).substring(2, 10);
+          const email = rows[0].email;
+          const subject = "Password Reset Request";
+          const html = `สวัสดี คุณ ${rows[0].username}<br>รหัสผ่านใหม่ของคุณ คือ &nbsp;${randomPass}`;
+
+          sendmail(email, subject, html);
+
+          try {
+            const hashedPass = await bcrypt.hash(randomPass, 10);
+
+            db.query(
+              "UPDATE accounts SET password = ? WHERE username = ?",
+              [hashedPass, username],
+              (err) => {
+                if (err) {
+                  console.error("Update error:", err);
+                  return res.status(500).send("Update error");
+                }
+
+                res.render("index_forgotpass", {
+                  message: `รหัสผ่านใหม่ได้ถูกส่งไปยังอีเมลของคุณ "${email}". โปรดตรวจสอบอีเมลของคุณ`,
+                  vhf1: "hidden", // Add this to pass vhf1
+                  vhf2: "visible", // Add this to pass vhf2
+                });
+              }
+            );
+          } catch (err) {
+            console.error("Hashing error:", err);
+            return res.status(500).send("Internal error");
           }
-
-          if (rows.length > 0) {
-              const randomPass = Math.random().toString(36).substring(2, 10);
-              const email = rows[0].email;
-              const subject = "Password Reset Request";
-              const html = `สวัสดี คุณ ${rows[0].username}<br>รหัสผ่านใหม่ของคุณ คือ &nbsp;${randomPass}`;
-
-              sendmail(email, subject, html);
-              bcrypt.hash(randomPass, 10, (err, hashedPass) => {
-                  if (err) {
-                      console.error("Hashing error:", err);
-                      return res.status(500).send("Internal error");
-                  }
-
-                  db.query("UPDATE accounts SET password = ? WHERE username = ?", [hashedPass, username], (err) => {
-                      if (err) {
-                          console.error("Update error:", err);
-                          return res.status(500).send("Update error");
-                      }
-
-                      res.render("index_forgotpass", {
-                          message: `รหัสผ่านใหม่ได้ถูกส่งไปยังอีเมลของคุณ "${email}". โปรดตรวจสอบอีเมลของคุณ`,
-                          vhf1: 'hidden',  // Add this to pass vhf1
-                          vhf2: 'visible'  // Add this to pass vhf2
-                      });
-                  });
-              });
-          } else {
-              res.render("index_forgotpass", {
-                  message: "ไม่พบชื่อผู้ใช้นี้",
-                  vhf1: 'visible',
-                  vhf2: 'hidden'
-              });
-          }
-      });
+        } else {
+          res.render("index_forgotpass", {
+            message: "ไม่พบชื่อผู้ใช้นี้",
+            vhf1: "visible",
+            vhf2: "hidden",
+          });
+        }
+      }
+    );
   } else {
-      res.render("index_forgotpass", {
-          message: "โปรดใส่ชื่อผู้ใช้",
-          vhf1: 'visible',
-          vhf2: 'hidden'
-      });
+    res.render("index_forgotpass", {
+      message: "โปรดใส่ชื่อผู้ใช้",
+      vhf1: "visible",
+      vhf2: "hidden",
+    });
   }
 });
 
-
-
 // เริ่มต้น server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at: ${port}`);
 });
