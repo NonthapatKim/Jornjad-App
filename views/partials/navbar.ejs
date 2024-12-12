@@ -1,0 +1,54 @@
+<header>
+    <nav class="bg-brown">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <img
+                class="h-8 w-auto"
+                src="/images/icon-white.png"
+                alt="Logo"
+            />
+            <a href="/" class="rounded-md px-3 py-2 text-sm font-sans font-medium text-white hover:bg-gray-700">จรจัด</a>
+          </div>
+  
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4">
+              <a href="/care" class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white">วิธีดูแล</a>
+              <a href="/foundation" class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white">โครงการช่วยเหลือ</a>
+              <a href="/maps" class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white">แผนที่</a>
+              <% if (session.username) { %>
+                <div class="user flex items-center gap-2">
+                  <p class="font-medium text-white">
+                    สวัสดี, <%= session.username %>
+                  </p>
+                  <a
+                    type="button"
+                    class="text-white hover:text-black border border-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    href="/logout"
+                  >
+                    ออกจากระบบ
+                  </a>
+                </div>
+              <% } else { %>
+                <a
+                  href="/login"
+                  class="rounded-md px-3 py-2 text-sm text-white font-medium hover:bg-gray-700 hover:text-white"
+                  >เข้าสู่ระบบ
+                </a>
+              <% } %>
+            </div>
+            <% if (currentUrl === '/maps') { %>
+              <div id="searchPlace" class="flex items-center">
+                <input
+                  id="search"
+                  placeholder="ค้นหาที่อยู่..."
+                  class="text-sm px-3 py-2 border rounded-md"
+                />
+                <div id="result"></div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+</header>

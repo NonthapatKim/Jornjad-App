@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap");
 
 @layer components {
   .add-marker-btn {
@@ -71,35 +72,36 @@ nav {
   z-index: 1000; /* ทำให้ Navbar อยู่เหนือแผนที่ */
 }
 
-.modal {
-  display: none; /* ปกติจะซ่อน */
+.CustomModal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* สีพื้นหลังมืด */
+  display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* สำหรับพื้นหลังมืด */
 }
 
 .modal-content {
-  background-color: white;
+  max-height: 80vh; /* จำกัดความสูงให้ไม่เกิน 80% ของหน้าจอ */
+  width: 50%; /* กำหนดความกว้างของ modal */
+  overflow-y: auto; /* เปิดใช้งานการเลื่อนแนวตั้ง */
+  background-color: #fff; /* กำหนดพื้นหลังเป็นสีขาว */
   padding: 20px;
-  border-radius: 5px;
-  width: 500px;
-  text-align: center;
+  border-radius: 8px;
+  position: relative;
 }
 
-.modal input,
-.modal button {
+.CustomModal input,
+.CustomModal button {
   margin: 10px 0;
   padding: 10px;
 }
 
-.modal img {
+.CustomModal img {
   max-width: 100%;
-  margin-top: 10px;
 }
 
 /* ปรับปุ่มเลือกไฟล์ให้เป็นวงกลม */
@@ -113,6 +115,10 @@ nav {
   align-items: center;
   cursor: pointer;
   border: none;
+  overflow: hidden; /* ป้องกันส่วนที่ล้น */
+  position: relative; /* สำหรับการจัดตำแหน่งภาพ */
+  padding: 0; /* เอา padding ออก */
+  margin: 0; /* เอา margin ออก */
 }
 
 .file-upload-btn:hover {
@@ -123,12 +129,190 @@ nav {
   display: none; /* ซ่อน input type file */
 }
 
+/* สำหรับภาพไอคอนหรือพรีวิว */
 .file-upload-btn img {
-  width: 70px; /* ขนาดของไอคอน */
-  height: 70px; /* ขนาดของไอคอน */
+  width: 100%; /* ให้ภาพเต็มพื้นที่ */
+  height: 100%; /* ให้ภาพเต็มพื้นที่ */
+  object-fit: cover; /* ตัดแต่งให้ภาพเต็ม */
+  border-radius: 50%; /* ทำให้ภาพเป็นวงกลม */
+  position: absolute; /* ป้องกันการเลื่อนของภาพ */
+  top: 0;
+  left: 0;
+  background-color: transparent; /* ลบสีพื้นหลังใด ๆ ที่ยังค้าง */
 }
 
 /* เพิ่มช่องว่างระหว่างฟอร์มข้อมูล */
 .input-fields .input {
   margin-bottom: 10px;
+}
+
+/* Full screen height form */
+.form-container {
+  min-height: 100vh;
+}
+/* Center buttons horizontally */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.site-section {
+  padding: 10rem;
+  justify-content: center;
+}
+
+.slant-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slant {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  text-align: right;
+  color: white;
+  z-index: 10;
+  opacity: 0; /* เริ่มต้นด้วยการซ่อน */
+  animation: fadeInUp 3s ease-out forwards; /* เพิ่ม animation */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-overlay h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.text-overlay p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  color: white;
+  z-index: 10;
+}
+
+.blog_entry {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog_entry:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.blog_entry img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.blog_entry .p-4 {
+  padding: 1rem;
+}
+.blog_entry h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #321303;
+  margin-bottom: 0.5rem;
+}
+
+.blog_entry p {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.blog_entry .more a {
+  color: #8b4513;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.blog_entry .more a:hover {
+  text-decoration: underline;
+}
+.site-section h1 {
+  font-size: 1.5rem;
+  color: #8b4513;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.site-section p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.bg-lightbrown {
+  background-color: #f1e9e5;
+}
+.window-scroll {
+  transform: translateY(0); 
+}
+
+.scrolled {
+  transform: translateY(-70px);
+}
+
+.images-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%; /* ทำให้เป็นวงกลม */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  overflow: hidden;
+  position: relative; 
+  padding: 0;
+  margin: 0;
+}
+
+.images-preview img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
 }

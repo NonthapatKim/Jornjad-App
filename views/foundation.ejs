@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/icon-white.png" />
+    <title>โครงการช่วยเหลือ | Jornjad</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .image3 {
+            width: 100vw;
+            margin-left: 0;
+            transition: transform 3s ease; /* Animation for hover */
+        }
+        .image3:hover {
+            transform: scale(1.05); /* Scale image slightly */
+        }
+        .donation-container {
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .donation-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #321303;
+            color: white;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease; /* Smooth hover effect */
+        }
+        .donation-button:hover {
+            background-color: #8B4513;
+            transform: scale(1.1); /* Enlarge button slightly */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow */
+        }
+        .p-0 {
+            width: 100vw; 
+        }
+        .container-img img {
+            display: block;
+            width: 100%; /* Ensure full width for images */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .container {
+            max-width: 1200px; /* Set max width for text content */
+            margin: 0 auto;
+        }
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <%- include("partials/navbar") -%>
+    
+    <div class="container-img">
+        <img src="/images/foundation.jpg" class="image3" data-aos="fade-up" data-aos-offset="200" alt="Foundation Image"> 
+    </div>
+
+    <div class="container">
+        <div class="mt-5">
+            <h1 class="text-xxl font-bold text-brown">โครงการช่วยเหลือสุนัขและแมวจรจัด</h1><br>
+            <h1 class="text-xl font-bold text-brown">โดย มูลนิธิเพื่อสุนัขในซอย (Soidog Foundation)</h1>
+            <div class="donation-container">
+                <a class="donation-button" href="https://www.soidog.org/th/content/make-donation">บริจาค</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-lightbrown mt-5">
+        <div class="container p-0 bg-lightbrown" data-aos="fade-in" data-aos-offset="200" data-aos-duration="800">
+            <div data-aos="fade-right" data-aos-offset="600" data-aos-duration="800"> 
+                <br><br>
+                <h1 class="text-xl text-lightbrown text-center font-bold">การเข้าถึงแบบองค์รวม</h1><br>
+                <h2 class="text-lg text-brown text-center">การให้ความช่วยเหลือ — การทำหมัน — การฉีดวัคซีน — การรักษาพยาบาล — ศูนย์พักพิง — การรับอุปการะ</h2><br>          
+            </div>
+        </div>
+        
+        <div class="container-img">
+            <img src="/images/soidog.png" class="image3" data-aos="fade-up" data-aos-offset="600" alt="Soidog Foundation Image"> 
+        </div>
+
+        <div class="container" data-aos="zoom-in" data-aos-offset="200" data-aos-duration="800">
+            <p class="text-center text-xl p-20">มูลนิธิเพื่อสุนัขในซอยได้รับการจัดอันดับความน่าเชื่อถือในระดับสี่ดาว (ระดับสูงสุด) จาก Charity Navigator<br> หน่วยงานอิสระประเมินความน่าเชื่อถือขององค์กรการกุศลที่ได้รับการยอมรับในระดับโลก</p>
+        </div>
+    </div>
+
+    <%- include("partials/footer") -%>
+  
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      offset: 120, 
+      duration: 600, 
+      easing: 'ease-in-out', 
+      once: true 
+    });
+  </script>
+</body>
+</html>

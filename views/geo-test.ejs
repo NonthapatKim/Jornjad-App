@@ -1,0 +1,49 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Demo with jQuery</title>
+    <!-- ใส่ jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>Your GPS Location</h1>
+    <button id="get-location">Get Location</button>
+    <div id="location"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#get-location').on('click', function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var lat = position.coords.latitude;
+                        var lon = position.coords.longitude;
+                        
+                        // แสดงผลบนหน้าเว็บ
+                        $('#location').html('Latitude: ' + lat + '<br>Longitude: ' + lon);
+                    }, function (error) {
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                $('#location').html('User denied the request for Geolocation.');
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                $('#location').html('Location information is unavailable.');
+                                break;
+                            case error.TIMEOUT:
+                                $('#location').html('The request to get user location timed out.');
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                $('#location').html('An unknown error occurred.');
+                                break;
+                        }
+                    });
+                } else {
+                    $('#location').html('Geolocation is not supported by this browser.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

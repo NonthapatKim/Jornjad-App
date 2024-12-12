@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/icon-white.png" />
+    <title>วิธีดูแล | Jornjad</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/output.css" rel="stylesheet" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container-img {
+            position: relative; 
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            align-items: center; /* จัดตำแหน่งแนวตั้งให้ข้อความอยู่กลางกับรูปภาพ */
+            justify-content: center; /* จัดตำแหน่งแนวนอนตามที่ต้องการ */
+            position: relative;
+        }
+
+        .image {
+            width: 50%; /* ปรับขนาดรูปภาพตามต้องการ */
+            height: auto;
+            z-index: 1; /* รูปภาพอยู่ด้านหลัง */
+            height: auto;
+            transition: transform 0 s ease-in-out;
+        }
+
+        .text-overlay2 {
+            position: absolute;
+            top: 40%; /* จัดตำแหน่งข้อความให้ตรงกลาง */
+            left: 60%; /* ปรับการวางข้อความ */
+            padding: 5px;
+            color: #321303;
+        }
+
+        .text-overlay2 h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+        }
+
+        .text-overlay2 h2 {
+            font-size: 2.3rem;
+        }
+
+        .image1 {
+            width: 100%; /* ทำให้รูปภาพขยายเต็มขนาดคอนเทนเนอร์ */
+            height: auto;
+            display: block; /* กำหนดให้รูปภาพแสดงในบล็อก */
+            margin-left: auto;
+            margin-right: auto;
+            height: auto;
+            transition: transform 0 s ease-in-out;
+        }
+
+        .image2 {
+            width: 50%; /* ทำให้รูปภาพขยายเต็มขนาดคอนเทนเนอร์ */
+            height: 50%; /* ทำให้รูปภาพขยายเต็มขนาดคอนเทนเนอร์ */
+            margin-left: auto;
+            margin-right: auto;
+            transition: transform 0 s ease-in-out;
+        }
+
+        /* เริ่มต้นให้รูปภาพอยู่ที่ตำแหน่งเดิม */
+        .image, .image1, .image2 {
+            height: auto;
+            display: block;
+            margin-right: auto;
+            opacity: 0; /* รูปจะไม่แสดงผลก่อน */
+            transform: translateY(-30px); /* รูปจะเลื่อนขึ้นก่อน */
+            transition: opacity 1s ease, transform 1s ease; /* ให้เคลื่อนที่อย่างนุ่มนวล */
+        }
+
+        /* เมื่อรูปภาพเข้าสู่มุมมอง */
+        .image.visible, .image1.visible ,.image2.visible{
+            opacity: 1; /* ทำให้รูปแสดงขึ้น */
+            transform: translateY(0); /* รูปจะกลับมาที่ตำแหน่งเดิม */
+        }
+
+        .image2:hover {
+            transform: scale(1.1); /* ขยายรูปภาพเมื่อชี้เมาส์ */
+        }
+    </style>
+</head>
+<body>
+    <%- include("partials/navbar") -%>
+
+    <div class="container-img">
+        <div class="row bg-lightbrown">
+            <img src="/images/care.png" alt="Background Image" class="image">
+            <div class="text-overlay2">
+                <h1>รับแมวจรสุนัขจรมาเลี้ยง</h1>
+                <h2>ต้องเริ่มดูแลอย่างไร</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="text-center">
+                <h1 class="text-xl text-brown font-bold">การเตรียมตัวรับ สุนัขและแมวจรจัด</h1><br>
+                <h1 class="text-brown">เข้ามาเป็นสมาชิกใหม่</h1><br><br>
+                <div class="grid grid-cols-4 gap-4 p-4 text-center">
+                    <!-- คอลัมน์ที่ 1 -->
+                    <div class="text-center">
+                        <img src="/images/light-bulb.png" alt="Sample Image 1" class="image2">
+                        <h2 class="text-lg font-bold text-brown mt-2">#1</h2>
+                        <p class="text-sm text-gray-600">เตรียมความรู้และความเข้าใจ</p>
+                    </div>
+                    
+                    <!-- คอลัมน์ที่ 2 -->
+                    <div class="text-center">
+                        <img src="/images/repair.png" alt="Sample Image 2" class="image2">
+                        <h2 class="text-lg font-bold text-brown mt-2">#2</h2>
+                        <p class="text-sm text-gray-600">เตรียมอุปกรณ์และสถานที่</p>
+                    </div>
+        
+                    <!-- คอลัมน์ที่ 3 -->
+                    <div class="text-center">
+                        <img src="/images/coin.png" alt="Sample Image 3" class="image2">
+                        <h2 class="text-lg font-bold text-brown mt-2">#3</h2>
+                        <p class="text-sm text-gray-600">เตรียมเงินและเวลา</p>
+                    </div>
+        
+                    <!-- คอลัมน์ที่ 4 -->
+                    <div class="text-center">
+                        <img src="/images/treat.png" alt="Sample Image 4" class="image2">
+                        <h2 class="text-lg font-bold text-brown mt-2">#4</h2>
+                        <p class="text-sm text-gray-600">เฝ้าระวังโรค</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w-screen bg-lightbrown p-10">
+        <div class="box-1 mb-10">
+            <h2 class="text-xxl font-bold text-lightbrown text-center"># 1.</h2>
+            <h2 class="text-xl font-bold text-brown text-center">เตรียมความรู้และความเข้าใจ</h2>
+
+            <div class="detail-box mt-10">
+                <div class="row">
+                    <div class="grid grid-cols-2 flex items-center gap-6">
+                        <div>            
+                            <img src="/images/care1.jpeg" alt="Care image" class="image1">
+                        </div>
+                        <div>
+                            <p class="text-lg">
+                                ความรู้และความเข้าใจเป็นจุดเริ่มต้นที่สำคัญมากสำหรับการรับสัตว์สักตัวเข้ามาเป็นสมาชิกใหม่ในบ้าน ความเข้าใจนี้ครอบคลุมทั้งความเข้าใจ ”เขา” และความเข้าใจ ”เรา” ซึ่ง “เขา” ที่ว่าคือน้องหมาหรือน้องแมวที่เรากำลังจะรับมาเลี้ยงในกรณีที่เดิมเรามีสัตว์เลี้ยงอยู่แล้วไม่ว่าจะเป็นสุนัขหรือแมวก็ควรพิจารณาความเป็นไปได้ว่าสมาชิกเก่าของเรากับน้องใหม่ที่กำลังจะรับเข้ามาจะสามารถอยู่ร่วมกันได้หรืออไม่ และถ้าอยู่ร่วมกันไม่ได้จะมีแผนการรับมืออย่างไร นอกจากทำความเข้าใจกับสมาชิกในบ้านแล้ว สมาชิกรอบบ้านก็สำคัญ เช่น ที่อยู่อาศัยที่เราอยู่มีกฎห้ามเลี้ยงสัตว์หรือไม่ เพื่อนบ้านเรามีสัตว์เลี้ยงหรือไม่และเขายินดีกับการเลี้ยงสัตว์มากน้อยแค่ไหน
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-2 mb-10">
+            <h2 class="text-xxl font-bold text-lightbrown text-center"># 2.</h2>
+            <h2 class="text-xl font-bold text-brown text-center">เตรียมความรู้และความเข้าใจ</h2>
+
+            <div class="detail-box mt-10">
+                <div class="row">
+                    <div class="grid grid-cols-2 flex items-center gap-6">
+                        <div>
+                            <p class="text-lg">
+                                อุปกรณ์ที่จำเป็นต้องใช้พื้นฐาน เช่น ปลอกคอ สายจูง ชามข้าว ชามน้ำ ถาดรองสำหรับขับถ่ายของสุนัข กระบะทรายและทรายสำหรับการขับถ่ายของแมว แชมพูอาบน้ำ อาหารสุนัขหรืออาหารแมว ที่นอน ที่แปรงขนสำหรับสุนัขและแมวที่มีขนยาว เป็นต้น อุปกรณ์อื่นๆ เพิ่มเติม เช่น ของเล่น ขนม เสื้อ รองเท้า เป็นต้น สำหรับการจัดเตรียมเรื่องสถานที่ทั้งที่กิน ที่นอน บริเวณสำหรับขับถ่าย บริเวณสำหรับวิ่งเล่น โดยเฉพาะอย่างยิ่งในสุนัขที่มีขนาดตัวใหญ่ ต้องจัดเตรียมให้เหมาะสมกับขนาดตัวของสัตว์เลี้ยง และเหมาะสมสำหรับบ้าน และการอยู่อาศัยของเราเองด้วย
+                            </p>
+                        </div>
+                        <div>
+                            <img src="/images/care2.jpg" alt="Care image" class="image1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-3 mb-10">
+            <h2 class="text-xxl font-bold text-lightbrown text-center"># 3.</h2>
+            <h2 class="text-xl font-bold text-brown text-center">เตรียมเงินและเวลา</h2>
+
+            <div class="detail-box mt-10">
+                <div class="row">
+                    <div class="grid grid-cols-2 flex items-center gap-6">
+                        <div>
+                            <img src="/images/care3.jpg" alt="Care image" class="image1">
+                        </div>
+                        <div>
+                            <p class="text-lg">
+                                ถือเป็นปัจจัยสำคัญกับเรื่องเงินและเวลา แน่นอนว่าเมื่อมีสมาชิกใหม่เพิ่มขึ้นในบ้าน ค่าใช้จ่ายในแต่ละเดือนย่อมเพิ่มขึ้น เช่น ค่าอาหาร ค่าวัคซีน ค่ายาป้องกันเห็บหมัด เป็นต้น แล้วยังรวมถึงกรณีที่น้องหมาหรือน้องแมวเกิดความเจ็บป่วยต้องไปพบสัตวแพทย์อีกด้วย
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-screen p-10">
+        <div class="box">
+            <h2 class="text-xxl font-bold text-lightbrown text-center"># 4.</h2>
+            <h2 class="text-xl font-bold text-brown text-center">เฝ้าระวังโรค</h2>
+
+            <div class="detail-box mt-10">
+                <div class="row">
+                    <div class="grid grid-cols-2 flex items-center gap-6">
+                        <div>
+                            <p class="text-lg">
+                                เมื่อตัดสินใจรับเลี้ยงสุนัขและแมวจรจัดแล้ว ในวันที่ไปรับน้องมาจากสถานที่พักพิง ควรสอบถามประวัติสุขภาพของสัตว์ที่เราจะรับมาเลี้ยง ประวัติสุขภาพที่สำคัญ
+                            </p>
+
+                            <ul class="text-lg mt-5">
+                                <li>- ประวัติการทำวัคซีน</li>
+                                <li>- ประวัติการถ่ายพยาธิ</li>
+                                <li>- ประวัติการทำหมัน</li>
+                                <li>- โรคประจำตัวอื่น ๆ</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="/images/care4.jpg" alt="Care image" class="image1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include("partials/footer") -%>
+    
+    <script>
+        const images = document.querySelectorAll('.image2, .image1, .image');
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+        }, {
+        threshold: 0.5  // รูปภาพจะเริ่มแสดงเมื่อ 50% ของมันอยู่ในมุมมอง
+        });
+    
+        // เริ่มต้นการติดตามรูปภาพทั้งหมด
+        images.forEach(image => {
+        observer.observe(image);
+        });
+    </script>
+</body>
+</html>

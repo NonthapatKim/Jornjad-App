@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/images/icon-white.png" />
+    <title>แผนที่ | Jornjad</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/output.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
+  </head>
+  <body onload="init();">
+    <%- include("partials/navbar") -%>
+
+    <div id="map"></div>
+
+    <% if (session.userId) { %>
+      <button id="add-marker-btn" class="add-marker-btn">
+        <span class="font-sans font-medium">+ เพิ่ม</span>
+        <img
+          class="h-8 w-auto"
+          src="https://img2.pic.in.th/pic/ph_cat.png"
+          alt="Logo"
+        />
+        <img
+          class="h-8 w-auto"
+          src="https://img5.pic.in.th/file/secure-sv1/ph_dog.png"
+          alt="Logo"
+        />
+      </button>
+
+      <div id="markerModal" class="CustomModal" style="display: none">
+        <div class="modal-content mt-10">
+          <h1 class="text-xl font-semibold text-gray-900">
+            เพิ่มข้อมูลน้องหมาน้องแมว
+          </h1>
+          <form
+            id="animalForm"
+            action="/add-animal"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="flex items-center">
+              <label class="file-upload-btn">
+                <input type="file" id="imageUpload" accept="image/*" name="image" />
+                <img
+                  src="https://img5.pic.in.th/file/secure-sv1/dog07691b7cacd1708f.png"
+                  alt="Upload Icon"
+                />
+              </label>
+              <div class="flex flex-col gap-1 flex-1 pl-5">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="ชื่อ"
+                  class="p-2 border border-gray-300 rounded-md w-full"
+                />
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="ที่อยู่"
+                  class="p-2 border border-gray-300 rounded-md w-full"
+                />
+                <div class="bg-yellow-200 rounded-md">
+                  <p class="p-2 text-start text-sm font-bold text-red-600">
+                    สำคัญ: หากไม่ใช้พิกัดจริง กรุณาใช้รูปแบบการกรอกที่อยู่ ตามตัวอย่าง ดังนี้ <br/><br/>
+                    <span class="italic">98 อาคารสาทร สแควร์ ออฟฟิศ ทาวเวอร์ ชั้น 4 ห้อง 407 ถนนสาทรเหนือ แขวงสีลม เขตบางรัก กรุงเทพมหานคร 10500</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2 flex-1 mt-2">
+              <textarea
+                id="details"
+                name="details"
+                class="p-2 border border-gray-300 rounded-md w-full placeholder-gray-500"
+                placeholder="รายละเอียด"
+              ></textarea>
+            </div>
+
+            <fieldset
+              class="flex flex-col items-center justify-center gap-2 mt-4"
+            >
+              <p class="mt-1 text-base text-gray-600 self-start text-left">
+                ข้อมูลเพิ่มเติม
+              </p>
+              <div class="mt-2 space-y-4 w-full">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center w-full">
+                    <input
+                      id="cat"
+                      name="animal"
+                      type="radio"
+                      value="cat"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="cat"
+                      class="text-lg font-medium text-gray-900 ml-2"
+                      >น้องแมว</label
+                    >
+                  </div>
+                  <div class="flex items-center w-full">
+                    <input
+                      id="dog"
+                      name="animal"
+                      type="radio"
+                      value="dog"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="dog"
+                      class="text-lg font-medium text-gray-900 ml-2"
+                      >น้องหมา</label
+                    >
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center w-full">
+                    <input
+                      id="sick"
+                      name="health"
+                      type="radio"
+                      value="sick"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="sick"
+                      class="text-lg font-medium text-gray-900 ml-2"
+                      >ป่วย</label
+                    >
+                  </div>
+                  <div class="flex items-center w-full">
+                    <input
+                      id="not-sick"
+                      name="health"
+                      type="radio"
+                      value="not-sick"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="not-sick"
+                      class="text-lg font-medium text-gray-900 ml-2"
+                      >ไม่ป่วย</label
+                    >
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center w-full">
+                    <input
+                      id="neutered"
+                      name="sterilization"
+                      value="neutered"
+                      type="radio"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="neutered"
+                      class="text-lg font-medium text-gray-900 ml-2"
+                      >ทำหมันแล้ว</label
+                    >
+                  </div>
+                  <div class="flex items-center w-full">
+                    <input
+                      id="not-neutered"
+                      name="sterilization"
+                      value="not-neutered"
+                      type="radio"
+                      class="form-radio text-indigo-600"
+                    />
+                    <label
+                      for="not-neutered"
+                      class="text-lg font-medium text-gray-900 ml-2 whitespace-nowrap"
+                      >ยังไม่ทำหมัน</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="flex justify-end gap-4 mt-6">
+              <button
+                type="button"
+                class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300"
+                id="cancel-btn"
+              >
+                ยกเลิก
+              </button>
+
+              <button
+                type="submit"
+                class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown"
+              >
+                บันทึก
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    <% } else { %>
+      <button id="login-modal-btn" class="add-marker-btn">
+        <span class="font-sans font-medium">+ เพิ่ม</span>
+        <img
+          class="h-8 w-auto"
+          src="https://img2.pic.in.th/pic/ph_cat.png"
+          alt="Logo"
+        />
+        <img
+          class="h-8 w-auto"
+          src="https://img5.pic.in.th/file/secure-sv1/ph_dog.png"
+          alt="Logo"
+        />
+      </button>
+
+      <div id="loginModal" class="CustomModal" style="display: none">
+        <div class="modal-content">
+          <h1 class="text-xl font-semibold text-gray-900">
+            กรุณาล็อกอินเพื่อเพิ่มข้อมูล
+          </h1>
+          <div class="flex items-center justify-end gap-4 mt-6">
+            <button
+              type="button"
+              class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 inline-flex items-center justify-center h-10"
+              id="cancel-login-modal"
+            >
+              ยกเลิก
+            </button>
+
+            <a
+              href="/login"
+              class="px-4 py-2 text-sm font-medium text-white bg-brown rounded-md hover:bg-brown inline-flex items-center justify-center h-10"
+            >
+              เข้าสู่ระบบ
+            </a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <div id="markerDetailModal" class="CustomModal" style="display: none">
+      <div class="modal-content mt-10 relative">
+        <button id="close-marker-detail" class="absolute top-2 right-2 material-symbols-outlined text-gray-700 hover:text-gray-900 focus:outline-none">
+          close
+        </button>
+    
+        <h1 class="text-xl font-semibold text-gray-900 mb-10">
+          ข้อมูล
+        </h1>
+    
+        <div class="grid grid-cols-2 ps-20 pe-20 pb-10 flex items-center">
+          <div class="images-preview">
+            <img src="/images/non-image.jpg" id="animal_image" alt="images-preview" />
+          </div>
+    
+          <div class="details text-start text-lg leading-relaxed">
+            <p class="text-start font-medium" id="animal_type">แมว</p>
+            <div class="bg-red-100 rounded-md mb-4">
+              <p class="p-4 text-center font-bold" id="animal_name">น้องแมว</p>
+            </div>
+            <p>ที่อยู่: <span class="font-bold" id="animal_address">-</span></p>
+            <p>รายละเอียด: <span class="font-bold" id="animal_details">-</span></p>
+            <p>สถานะสุขภาพ: <span class="font-bold" id="animal_health_status">ไม่ป่วย</span></p>
+            <p>ทำหมัน: <span class="font-bold" id="sterilization_status">ทำแล้ว</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://api.longdo.com/map/?key=0671ad90af3778e5ae2004875bf4f2ab"></script>
+  <script>
+    var map;
+    var search;
+    function init() {
+      // สร้างแผนที่
+      map = new longdo.Map({
+        placeholder: document.getElementById('map'),
+      });
+
+      search = document.getElementById('search');
+      map.Search.placeholder(document.getElementById('result'));
+
+      ///When user press an Enter button #search
+      search.onkeyup = function(event) {
+        if((event || window.event).keyCode != 13)
+          return;
+        doSearch();
+      }
+
+      function doSearch() {
+        map.Search.search(search.value, {
+          area: 10,
+        });
+        suggest.style.display = 'none';
+      }
+    }
+
+    $(document).ready(function () {
+      var lat = ""
+      var lon = ""
+      
+      // เรียกใช้ GPS
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+
+            map.Overlays.add(new longdo.Marker(
+              { lon: lon, lat: lat },
+              {
+                title: "Your Location",
+                icon: {
+                  url: "https://img2.pic.in.th/pic/my-icon.png", // URL ของไอคอนหมา
+                  offset: { x: 25, y: 25 }, // ปรับจุดอ้างอิงให้อยู่ตรงกลาง
+                  size: { width: 50, height: 50 }, // กำหนดขนาดไอคอน
+                },
+                detail: "นี่คือตำแหน่งของคุณ ณ ขณะนี้",
+                draggable: false,
+              }
+            ));
+
+            getAddressFromCoordinates(lon, lat);
+
+            //console.log("Latitude: " + lat + "<br>Longitude: " + lon);
+          },
+          function (error) {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                console.log("User denied the request for Geolocation.");
+                break;
+              case error.POSITION_UNAVAILABLE:
+                console.log("Location information is unavailable.");
+                break;
+              case error.TIMEOUT:
+                console.log("The request to get user location timed out.");
+                break;
+              case error.UNKNOWN_ERROR:
+                console.log("An unknown error occurred.");
+                break;
+            }
+          }
+        );
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+
+      function getAddressFromCoordinates(lon, lat) {
+        $.ajax({
+          url: `https://api.longdo.com/map/services/address`, // URL API
+          method: "GET",
+          data: {
+            lon: lon, // พิกัด Longitude
+            lat: lat, // พิกัด Latitude
+            noelevation: 1, // ไม่ดึงข้อมูลความสูง
+            key: "0671ad90af3778e5ae2004875bf4f2ab", // แทนที่ด้วย API Key ของคุณ
+          },
+          success: function (response) {
+            const fullAddress = `
+                ${response.aoi || ""} 
+                ${response.road || ""}, 
+                ${response.subdistrict || ""}, 
+                ${response.district || ""}, 
+                ${response.province || ""} 
+                ${response.postcode || ""}`.trim();
+
+            const formattedAddress = fullAddress.replace(/\s+/g, " ").trim();
+
+            // แสดงที่อยู่ใน input#address
+            $("#address").val(formattedAddress);
+          },
+          error: function (error) {
+            console.error("Error fetching address:", error);
+          },
+        });
+      }
+
+      //get Marker
+      $.ajax({
+        url: "/get-animal", // URL ของ backend API
+        method: "GET", // วิธีการส่ง (GET)
+        success: function (response) {
+          if (response && response.length > 0) {
+            response.forEach((animal) => {
+              const lat = parseFloat(animal.latitude);
+              const lon = parseFloat(animal.longitude);
+
+              const markers = {};
+
+              if (!isNaN(lat) && !isNaN(lon)) {
+                // สร้าง Marker
+                const marker = new longdo.Marker(
+                  { lon: lon, lat: lat }, 
+                  {
+                    title: animal.id,
+                    icon: {
+                      url:
+                        animal.animal_type === "cat"
+                          ? "https://img5.pic.in.th/file/secure-sv1/cat6b64d8256d8b6d45.png"
+                          : "https://img2.pic.in.th/pic/dogg.png",
+                      offset: { x: 25, y: 25 },
+                      size: { width: 50, height: 50 },
+                    },
+                    draggable: false,
+                  }
+                );
+
+                // เพิ่ม Marker ลงในแผนที่
+                map.Overlays.add(marker);
+              }
+            });
+
+            // เพิ่ม Event Listener สำหรับการคลิก
+            map.Event.bind('overlayClick', function (overlay) {
+              AnimalDetail(overlay.title)
+            });
+
+          } else {
+            alert("ไม่มีข้อมูลสัตว์ที่จะแสดง");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching animals:", error);
+          alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+        },
+      });
+
+      function AnimalDetail(animal_id) {
+        //console.log(animal_id);
+
+        $.ajax({
+          url: "/get-animal/" + animal_id,
+          method: "GET",
+          success: function(response) {
+              console.log(response);
+
+              if (response.length > 0) {
+                const animalData = response[0];
+
+                $('#markerDetailModal').fadeIn();
+
+                const imageUrl = animalData.image ? `/uploads/${animalData.image}` : '/images/non-image.jpg';
+                $('#animal_image').attr('src', imageUrl);
+                
+                $('#animal_type').text(animalData.animal_type == "cat" ? "แมว" : "สุนัข");
+                $('#animal_name').text("น้อน" + animalData.name);
+                $('#animal_address').text(animalData.address);
+
+                $('#animal_details').text(animalData.details != null ? animalData.details : "-");
+                $('#animal_health_status').text(animalData.health_status == "sick" ? "ป่วย" : "ไม่ป่วย");
+                $('#sterilization_status').text(animalData.sterilization_status == "neutered" ? "ทำหมันแล้ว" : "ยังไม่ทำหมัน");
+              }
+
+          },
+          error: function(xhr, status, error) {
+              // จัดการ error
+              console.error('Error fetching animal data:', error);
+              // สามารถแสดงข้อความแจ้ง error ให้ผู้ใช้เห็นได้ที่นี่
+              // เช่น alert('เกิดข้อผิดพลาดในการดึงข้อมูลสัตว์');
+          }
+        });
+      }
+
+      // ใช้ jQuery เพื่อเปิด Modal
+      $("#add-marker-btn").click(function () {
+        $("#markerModal").fadeIn(); 
+        $(".add-marker-btn").addClass("hidden");
+      });
+
+      // ใช้ jQuery เพื่อปิด Modal
+      $("#cancel-btn").click(function () {
+        $("#markerModal").fadeOut(); // ซ่อน modal
+        $(".add-marker-btn").removeClass("hidden")
+      });
+
+      $("#login-modal-btn").click(function () {
+        $("#loginModal").fadeIn(); // แสดง modal
+      });
+
+      $("#cancel-login-modal").click(function () {
+        $("#loginModal").fadeOut(); // ซ่อน modal
+      });
+
+      $("#close-marker-detail").click(function () {
+        $('#markerDetailModal').fadeOut();
+      });
+
+      // search
+      // ฟังก์ชันปิดผลลัพธ์การค้นหาหลังคลิก
+      $("#result").click(function () {
+        $("#result").hide();
+      });
+      
+      // ค้นหาที่อยู่เมื่อกด Enter
+      $("#search").on("keyup", (event) => {
+        if (event.key !== "Enter") return;
+        doSearch();
+      });
+
+      function doSearch() {
+        var searchValue = $("#search").val().trim();
+
+        //console.log(searchValue);
+
+        if (searchValue === "") {
+          $("#result").hide(); 
+          return;
+        }
+
+        map.Search.search(searchValue, {
+          area: 10,
+        });
+        map.Search.language("th");
+
+        $("#result").show(); // แสดงผลลัพธ์
+      }
+
+      // ซ่อนผลลัพธ์การค้นหาหากคลิกนอก input หรือ result
+      $(document).click(function (event) {
+        if (!$(event.target).closest("#result").length) {
+          $("#result").hide(); // ซ่อนผลลัพธ์เมื่อคลิกนอก
+        }
+      });
+
+      $("#imageUpload").on("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            $(".file-upload-btn img").attr("src", e.target.result);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // การส่งฟอร์มเมื่อกรอกข้อมูลเสร็จ
+      $("#animalForm").on("submit", function (event) {
+        event.preventDefault(); // ป้องกันการส่งฟอร์มแบบปกติ
+
+        var formData = new FormData(this); // สร้าง FormData จากฟอร์ม
+
+        var address = formData.get("address");
+
+          $.ajax({
+            url: `https://search.longdo.com/addresslookup/api/addr/geocoding`, // URL API
+            method: "GET",
+            data: {
+              text: address,
+              key: "0671ad90af3778e5ae2004875bf4f2ab", // แทนที่ด้วย API Key ของคุณ
+            },
+            success: function (response) {
+              if (response.data && response.data.length > 0) {
+                var point = response.data[0].point[0]; // เข้าถึง lat และ lon จาก response
+
+                // เพิ่ม lat และ lon ลงใน FormData
+                formData.append("lat", point.lat);
+                formData.append("lon", point.lon);
+
+                $.ajax({
+                  url: "/add-animal", // URL ของ backend endpoint
+                  type: "POST",
+                  data: formData,
+                  contentType: false, // ปิดการตั้งค่า contentType เอง
+                  processData: false, // ปิดการประมวลผล data ก่อนส่ง
+                  success: function (response) {
+                    alert("บันทึกข้อมูลสำเร็จ!");
+                    $("#markerModal").fadeOut(); // ปิด modal
+                    window.location.reload(); // โหลดหน้าใหม่
+                  },
+                  error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert("เกิดข้อผิดพลาด! ไม่สามารถบันทึกข้อมูลได้");
+                  },
+                });
+              }
+            },
+            error: function (error) {
+              console.error("Error fetching address:", error);
+            },
+          });
+      });
+    });
+  </script>
+</html>
