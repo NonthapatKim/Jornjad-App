@@ -1,0 +1,21 @@
+services:
+  jornjad:
+    image: jornjad
+    container_name: jornjad_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      DB_HOST: 103.230.121.55
+      DB_PORT: 2909
+      DB_USERNAME: jornjad
+      DB_PASSWORD: Jornjad!_8591
+      DB_NAME: Jornjad
+      SECRET_KEY: Jornjad_pk_jw4d!
+      EMAIL_NAME: 65.285kansinee@gmail.com
+      EMAIL_PASSCODE: ajan ezpi tizh bhqg
+    ports:
+      - 8591:8591
+    volumes:
+      - ./uploads
